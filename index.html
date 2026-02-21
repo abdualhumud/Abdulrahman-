@@ -7,55 +7,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* ─── CSS Variables / Themes ─── */
+    /* ─── Variables (cream + black only) ─── */
     :root {
-      --bg:        #FAF6F0;
-      --card:      #FFFDF9;
-      --border:    #E8DDD0;
-      --accent:    #7A5C3E;
-      --accent2:   #A07850;
-      --text:      #2C1F0F;
-      --muted:     #7A6652;
-      --ref-bg:    #F5EDE2;
-      --counter-bg:#7A5C3E;
-      --counter-fg:#FFFFFF;
-      --btn-reset: #E8DDD0;
-      --btn-reset-text: #5C4433;
-      --header-bg: #7A5C3E;
-      --header-fg: #FFFDF9;
-      --shadow:    rgba(122,92,62,0.12);
-      --font-size-base: 26px;
-    }
-    [data-theme="green"] {
-      --bg:#F0F7F0; --card:#F8FFF8; --border:#C8DEC8;
-      --accent:#2E6B3E; --accent2:#4A9B5A; --text:#0F2A14;
-      --muted:#4A7255; --ref-bg:#E4F5E4; --counter-bg:#2E6B3E;
-      --btn-reset:#C8DEC8; --btn-reset-text:#1A4A26;
-      --header-bg:#2E6B3E; --shadow:rgba(46,107,62,0.12);
-    }
-    [data-theme="blue"] {
-      --bg:#F0F4FA; --card:#F8FBFF; --border:#C8D8EE;
-      --accent:#1E4D8C; --accent2:#2E6DB4; --text:#0F1E3A;
-      --muted:#3A5A80; --ref-bg:#E4EEFA; --counter-bg:#1E4D8C;
-      --btn-reset:#C8D8EE; --btn-reset-text:#1A3560;
-      --header-bg:#1E4D8C; --shadow:rgba(30,77,140,0.12);
-    }
-    [data-theme="rose"] {
-      --bg:#FDF5F5; --card:#FFFAFA; --border:#EECECE;
-      --accent:#8C2E2E; --accent2:#B44A4A; --text:#3A0F0F;
-      --muted:#80444A; --ref-bg:#FAE8E8; --counter-bg:#8C2E2E;
-      --btn-reset:#EECECE; --btn-reset-text:#5C1E1E;
-      --header-bg:#8C2E2E; --shadow:rgba(140,46,46,0.12);
-    }
-    [data-theme="dark"] {
-      --bg:#1A1612; --card:#242018; --border:#3A3228;
-      --accent:#C8A87A; --accent2:#E0C090; --text:#F5EDD8;
-      --muted:#B0906A; --ref-bg:#2E2820; --counter-bg:#C8A87A;
-      --counter-fg:#1A1612; --btn-reset:#3A3228; --btn-reset-text:#C8A87A;
-      --header-bg:#2E2820; --header-fg:#F5EDD8; --shadow:rgba(0,0,0,0.3);
+      --bg:         #FAF6F0;
+      --card:       #FFFFFF;
+      --border:     #D8D0C4;
+      --text:       #000000;
+      --muted:      #444444;
+      --ref-bg:     #F0EBE3;
+      --header-bg:  #FAF6F0;
+      --divider:    #C8C0B4;
+      --font-size-base: 32px;
     }
 
-    /* ─── Reset & Base ─── */
+    /* ─── Reset ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -63,9 +28,8 @@
       color: var(--text);
       font-family: 'Amiri', serif;
       font-size: var(--font-size-base);
-      line-height: 1.7;
+      line-height: 1.8;
       min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
     }
 
     /* ─── Sticky Header ─── */
@@ -74,145 +38,135 @@
       top: 0;
       z-index: 100;
       background: var(--header-bg);
-      color: var(--header-fg);
-      padding: 12px 16px;
-      box-shadow: 0 2px 8px var(--shadow);
-    }
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
+      border-bottom: 2px solid var(--border);
+      padding: 14px 16px 10px;
     }
     .site-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
-      flex: 1;
-      min-width: 0;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.4;
     }
     .site-title small {
       display: block;
       font-size: 0.55rem;
       font-weight: 400;
-      opacity: 0.8;
-      margin-top: 2px;
+      color: var(--muted);
+      margin-top: 3px;
     }
 
-    /* Font size controls */
+    /* ─── Font Controls ─── */
     .font-controls {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
     }
     .font-btn {
-      background: rgba(255,255,255,0.18);
+      background: var(--text);
+      color: var(--bg);
       border: none;
-      color: var(--header-fg);
-      border-radius: 8px;
-      width: 44px;
-      height: 44px;
-      font-size: 1.3rem;
+      border-radius: 10px;
+      width: 56px;
+      height: 56px;
+      font-size: 1.5rem;
       font-family: 'Amiri', serif;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       touch-action: manipulation;
-      transition: background 0.15s;
+      transition: opacity 0.15s;
+      user-select: none;
     }
-    .font-btn:active { background: rgba(255,255,255,0.30); }
+    .font-btn:active { opacity: 0.7; }
+    .font-btn:disabled { opacity: 0.3; cursor: default; }
     .font-size-label {
-      font-size: 0.7rem;
-      opacity: 0.85;
-      min-width: 36px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      min-width: 54px;
       text-align: center;
+      font-weight: 700;
     }
 
-    /* Theme selector */
-    .theme-row {
+    /* ─── Daily Wird Button ─── */
+    .wird-btn-wrap {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 4px;
     }
-    .theme-label {
-      font-size: 0.65rem;
-      opacity: 0.8;
-    }
-    .theme-swatches {
-      display: flex;
-      gap: 6px;
-    }
-    .swatch {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 3px solid transparent;
+    .wird-btn {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 14px;
+      padding: 18px 24px;
+      font-family: 'Amiri', serif;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
       touch-action: manipulation;
-      transition: border-color 0.2s, transform 0.15s;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: opacity 0.15s;
+      line-height: 1.3;
     }
-    .swatch:active { transform: scale(0.9); }
-    .swatch.active { border-color: var(--header-fg); }
-    .swatch-cream  { background: #FAF6F0; }
-    .swatch-green  { background: #2E6B3E; }
-    .swatch-blue   { background: #1E4D8C; }
-    .swatch-rose   { background: #8C2E2E; }
-    .swatch-dark   { background: #1A1612; border: 3px solid #C8A87A; }
-
-    /* Count badge */
-    .count-badge {
-      background: rgba(255,255,255,0.18);
-      border-radius: 20px;
-      padding: 2px 10px;
-      font-size: 0.65rem;
+    .wird-btn:active { opacity: 0.7; }
+    .wird-btn small {
+      display: block;
+      font-size: 0.5rem;
+      font-weight: 400;
+      margin-top: 2px;
+      opacity: 0.75;
     }
 
     /* ─── Main Content ─── */
     .main {
-      max-width: 680px;
+      max-width: 700px;
       margin: 0 auto;
-      padding: 20px 12px 60px;
+      padding: 24px 14px 80px;
     }
 
     /* ─── Supplication Card ─── */
     .dua-card {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px 20px 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 16px var(--shadow);
-      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 26px 20px 22px;
+      margin-bottom: 20px;
     }
 
-    /* Card header: number badge */
+    /* Card header */
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .dua-num {
-      background: var(--accent);
-      color: #fff;
+      background: var(--text);
+      color: var(--bg);
       border-radius: 50%;
-      width: 46px;
-      height: 46px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 700;
       flex-shrink: 0;
     }
     .bismillah {
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       color: var(--muted);
-      opacity: 0.7;
     }
 
     /* Supplication text */
@@ -220,29 +174,29 @@
       font-size: 1em;
       line-height: 2;
       color: var(--text);
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       text-align: center;
     }
 
     /* Reference box */
     .dua-ref {
       background: var(--ref-bg);
-      border-radius: 12px;
+      border-radius: 10px;
       padding: 12px 16px;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 16px;
-      border-right: 4px solid var(--accent2);
+      line-height: 1.8;
+      margin-bottom: 18px;
+      border-right: 4px solid var(--text);
     }
     .dua-ref strong { color: var(--text); font-weight: 700; }
     .authenticity-badge {
       display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 6px;
+      border: 1.5px solid var(--text);
+      color: var(--text);
+      border-radius: 5px;
       padding: 1px 8px;
-      font-size: 0.5rem;
+      font-size: 0.48rem;
       margin-top: 4px;
     }
 
@@ -250,64 +204,60 @@
     .counter-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
-      margin-top: 4px;
     }
     .counter-tap {
-      background: var(--counter-bg);
-      color: var(--counter-fg);
+      background: var(--text);
+      color: var(--bg);
       border: none;
-      border-radius: 16px;
-      padding: 14px 32px;
+      border-radius: 14px;
+      padding: 15px 28px;
       font-family: 'Amiri', serif;
-      font-size: 1.1rem;
+      font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
       touch-action: manipulation;
-      transition: transform 0.1s, opacity 0.15s;
+      transition: transform 0.1s;
       user-select: none;
-      min-width: 120px;
+      min-width: 110px;
       text-align: center;
-      box-shadow: 0 4px 12px var(--shadow);
     }
-    .counter-tap:active { transform: scale(0.96); }
+    .counter-tap:active { transform: scale(0.95); }
     .counter-num {
       font-size: 1.4rem;
       font-weight: 700;
-      color: var(--accent);
-      min-width: 48px;
+      color: var(--text);
+      min-width: 52px;
       text-align: center;
     }
     .counter-reset {
-      background: var(--btn-reset);
-      color: var(--btn-reset-text);
-      border: none;
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
       border-radius: 10px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       font-family: 'Amiri', serif;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       cursor: pointer;
       touch-action: manipulation;
       transition: opacity 0.15s;
     }
-    .counter-reset:active { opacity: 0.7; }
+    .counter-reset:active { opacity: 0.6; }
 
     /* ─── Divider ─── */
     .divider {
       height: 1px;
-      background: var(--border);
-      margin: 0 20px 24px;
-      opacity: 0.5;
+      background: var(--divider);
+      margin: 0 16px 20px;
     }
 
     /* ─── Footer ─── */
     .site-footer {
       text-align: center;
       color: var(--muted);
-      font-size: 0.55rem;
-      padding: 20px;
-      opacity: 0.7;
+      font-size: 0.52rem;
+      padding: 16px;
     }
 
     /* ─── Back-to-top ─── */
@@ -315,84 +265,76 @@
       position: fixed;
       bottom: 24px;
       left: 16px;
-      background: var(--accent);
-      color: #fff;
+      background: var(--text);
+      color: var(--bg);
       border: none;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 54px;
+      height: 54px;
       font-size: 1.4rem;
       cursor: pointer;
       display: none;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px var(--shadow);
       touch-action: manipulation;
       z-index: 200;
       transition: opacity 0.2s;
     }
     #back-top.visible { display: flex; }
+    #back-top:active { opacity: 0.7; }
 
-    /* ─── Responsive tweaks ─── */
-    @media (max-width: 400px) {
-      body { font-size: 22px; }
-      .dua-card { padding: 18px 14px 16px; }
-    }
-    @media (min-width: 600px) {
-      body { font-size: 28px; }
+    /* ─── Responsive ─── */
+    @media (max-width: 420px) {
+      .dua-card { padding: 20px 14px 18px; }
+      .font-btn { width: 50px; height: 50px; font-size: 1.3rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
+<!-- ═══════════════════════════════
      STICKY HEADER
-══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <header class="site-header">
-  <div class="header-top">
-    <div class="site-title">
-      من جوامع دعاء النبي ﷺ
-      <small>٥٠ دعاءً جامعاً مأثوراً</small>
-    </div>
-    <div class="font-controls">
-      <button class="font-btn" id="font-down" aria-label="تصغير الخط">أ−</button>
-      <span class="font-size-label" id="font-label">متوسط</span>
-      <button class="font-btn" id="font-up" aria-label="تكبير الخط">أ+</button>
-    </div>
+  <div class="site-title">
+    من جوامع دعاء النبي ﷺ
+    <small>٥٠ دعاءً جامعاً مأثوراً</small>
   </div>
-  <div class="theme-row">
-    <span class="theme-label">اللون:</span>
-    <div class="theme-swatches">
-      <button class="swatch swatch-cream active" data-theme="cream"  aria-label="كريمي" title="كريمي"></button>
-      <button class="swatch swatch-green"        data-theme="green"  aria-label="أخضر"  title="أخضر"></button>
-      <button class="swatch swatch-blue"         data-theme="blue"   aria-label="أزرق"  title="أزرق"></button>
-      <button class="swatch swatch-rose"         data-theme="rose"   aria-label="وردي"  title="وردي"></button>
-      <button class="swatch swatch-dark"         data-theme="dark"   aria-label="داكن"  title="داكن"></button>
-    </div>
-    <span class="count-badge">٥٠ دعاء</span>
+
+  <!-- Font size controls -->
+  <div class="font-controls">
+    <button class="font-btn" id="font-down" aria-label="تصغير الخط">أ−</button>
+    <span class="font-size-label" id="font-label">كبير</span>
+    <button class="font-btn" id="font-up"   aria-label="تكبير الخط">أ+</button>
+  </div>
+
+  <!-- Daily Wird -->
+  <div class="wird-btn-wrap">
+    <a href="wird.html" class="wird-btn" aria-label="الورد اليومي">
+      الورد اليومي
+      <small>الفاتحة · المعوذتان · أذكار مختارة</small>
+    </a>
   </div>
 </header>
 
-<!-- ══════════════════════════════════════
+<!-- ═══════════════════════════════
      MAIN
-══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <main class="main" id="main-content">
   <!-- Cards injected by JS -->
 </main>
 
-<footer class="site-footer">
-  من جوامع دعاء النبي ﷺ · مجالس الذكر
-</footer>
+<footer class="site-footer">من جوامع دعاء النبي ﷺ · مجالس الذكر</footer>
 
 <button id="back-top" aria-label="العودة للأعلى">↑</button>
 
-<!-- ══════════════════════════════════════
+<!-- ═══════════════════════════════
      JAVASCRIPT
-══════════════════════════════════════ -->
+═══════════════════════════════ -->
 <script>
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // DATA: All 50 Supplications
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 const duas = [
   {
     id: 1,
@@ -746,32 +688,31 @@ const duas = [
   }
 ];
 
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // STATE
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 const counters = {};
 duas.forEach(d => { counters[d.id] = 0; });
 
 const FONT_SIZES = [
-  { label: 'صغير',  px: 18 },
-  { label: 'متوسط', px: 24 },
-  { label: 'كبير',  px: 30 },
-  { label: 'أكبر',  px: 36 }
+  { label: 'صغير',  px: 22 },
+  { label: 'متوسط', px: 28 },
+  { label: 'كبير',  px: 32 },
+  { label: 'أكبر',  px: 38 }
 ];
-let fontIdx = 1;
+// Default: index 2 = كبير (32px) — elderly-friendly from the start
+let fontIdx = 2;
 
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // RENDER CARDS
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 function renderCards() {
   const main = document.getElementById('main-content');
   main.innerHTML = '';
-
   duas.forEach((dua, i) => {
     const card = document.createElement('article');
     card.className = 'dua-card';
     card.id = `dua-${dua.id}`;
-
     card.innerHTML = `
       <div class="card-header">
         <div class="dua-num">${dua.id}</div>
@@ -789,9 +730,7 @@ function renderCards() {
         <button class="counter-tap" onclick="tapCounter(${dua.id})" aria-label="تسبيح">اضغط للعدّ</button>
       </div>
     `;
-
     main.appendChild(card);
-
     if (i < duas.length - 1) {
       const div = document.createElement('div');
       div.className = 'divider';
@@ -800,73 +739,48 @@ function renderCards() {
   });
 }
 
-// ─────────────────────────────────────────
-// COUNTER LOGIC
-// ─────────────────────────────────────────
+// ──────────────────────────────────
+// COUNTER
+// ──────────────────────────────────
 function tapCounter(id) {
   counters[id]++;
   updateCountDisplay(id);
-
-  // Micro-feedback: brief scale animation
   const btn = document.querySelector(`#dua-${id} .counter-tap`);
   if (btn) {
     btn.style.transform = 'scale(0.94)';
     setTimeout(() => { btn.style.transform = ''; }, 120);
   }
 }
-
-function resetCounter(id) {
-  counters[id] = 0;
-  updateCountDisplay(id);
-}
-
+function resetCounter(id) { counters[id] = 0; updateCountDisplay(id); }
 function updateCountDisplay(id) {
   const el = document.getElementById(`count-${id}`);
   if (el) el.textContent = toArabicNum(counters[id]);
 }
-
 function toArabicNum(n) {
   return n.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 }
 
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // FONT SIZE
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 function applyFont() {
   const f = FONT_SIZES[fontIdx];
   document.documentElement.style.setProperty('--font-size-base', f.px + 'px');
   document.getElementById('font-label').textContent = f.label;
+  document.getElementById('font-up').disabled   = (fontIdx === FONT_SIZES.length - 1);
+  document.getElementById('font-down').disabled = (fontIdx === 0);
 }
 
 document.getElementById('font-up').addEventListener('click', () => {
-  if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFont(); }
+  if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFont(); localStorage.setItem('athkar-font', fontIdx); }
 });
 document.getElementById('font-down').addEventListener('click', () => {
-  if (fontIdx > 0) { fontIdx--; applyFont(); }
+  if (fontIdx > 0) { fontIdx--; applyFont(); localStorage.setItem('athkar-font', fontIdx); }
 });
 
-// ─────────────────────────────────────────
-// THEME
-// ─────────────────────────────────────────
-document.querySelectorAll('.swatch').forEach(sw => {
-  sw.addEventListener('click', () => {
-    const theme = sw.dataset.theme;
-    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-    sw.classList.add('active');
-
-    const body = document.body;
-    if (theme === 'cream') {
-      body.removeAttribute('data-theme');
-    } else {
-      body.setAttribute('data-theme', theme);
-    }
-    localStorage.setItem('athkar-theme', theme);
-  });
-});
-
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // BACK TO TOP
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 const backBtn = document.getElementById('back-top');
 window.addEventListener('scroll', () => {
   backBtn.classList.toggle('visible', window.scrollY > 400);
@@ -875,24 +789,19 @@ backBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// ─────────────────────────────────────────
-// RESTORE PREFERENCES
-// ─────────────────────────────────────────
+// ──────────────────────────────────
+// RESTORE FONT PREFERENCE
+// ──────────────────────────────────
 function restorePrefs() {
-  const savedTheme = localStorage.getItem('athkar-theme') || 'cream';
-  if (savedTheme !== 'cream') {
-    document.body.setAttribute('data-theme', savedTheme);
-  }
-  const activeSwatch = document.querySelector(`.swatch[data-theme="${savedTheme}"]`);
-  if (activeSwatch) {
-    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-    activeSwatch.classList.add('active');
+  const savedFont = parseInt(localStorage.getItem('athkar-font'));
+  if (!isNaN(savedFont) && savedFont >= 0 && savedFont < FONT_SIZES.length) {
+    fontIdx = savedFont;
   }
 }
 
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 // INIT
-// ─────────────────────────────────────────
+// ──────────────────────────────────
 restorePrefs();
 renderCards();
 applyFont();
