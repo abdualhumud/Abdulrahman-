@@ -1,944 +1,369 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>من جوامع دعاء النبي ﷺ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    /* ─── CSS Variables: Cream (default) ─── */
-    :root {
-      --bg:          #FAF6F0;
-      --card:        #FFFDF9;
-      --border:      #E8DDD0;
-      --accent:      #7A5C3E;
-      --accent2:     #A07850;
-      --text:        #2C1F0F;
-      --muted:       #7A6652;
-      --ref-bg:      #F5EDE2;
-      --counter-bg:  #7A5C3E;
-      --counter-fg:  #FFFFFF;
-      --btn-reset:   #E8DDD0;
-      --btn-reset-text: #5C4433;
-      --header-bg:   #7A5C3E;
-      --header-fg:   #FFFDF9;
-      --shadow:      rgba(122,92,62,0.12);
-      --font-size-base: 24px;
-    }
-
-    /* ─── Dark / Night mode ─── */
-    [data-theme="dark"] {
-      --bg:          #1A1612;
-      --card:        #242018;
-      --border:      #3A3228;
-      --accent:      #C8A87A;
-      --accent2:     #E0C090;
-      --text:        #F5EDD8;
-      --muted:       #B0906A;
-      --ref-bg:      #2E2820;
-      --counter-bg:  #C8A87A;
-      --counter-fg:  #1A1612;
-      --btn-reset:   #3A3228;
-      --btn-reset-text: #C8A87A;
-      --header-bg:   #2E2820;
-      --header-fg:   #F5EDD8;
-      --shadow:      rgba(0,0,0,0.30);
-    }
-
-    /* ─── Reset & Base ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Amiri', serif;
-      font-size: var(--font-size-base);
-      line-height: 1.7;
-      min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    /* ─── Sticky Header ─── */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--header-bg);
-      color: var(--header-fg);
-      padding: 12px 16px;
-      box-shadow: 0 2px 8px var(--shadow);
-    }
-
-    /* Row 1: title + font controls + theme toggle */
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .site-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      flex: 1;
-      min-width: 0;
-      color: var(--header-fg);
-    }
-    .site-title small {
-      display: block;
-      font-size: 0.55rem;
-      font-weight: 400;
-      opacity: 0.8;
-      margin-top: 2px;
-    }
-
-    /* Font controls */
-    .font-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .font-btn {
-      background: rgba(255,255,255,0.18);
-      border: none;
-      color: var(--header-fg);
-      border-radius: 8px;
-      width: 44px;
-      height: 44px;
-      font-size: 1.3rem;
-      font-family: 'Amiri', serif;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: manipulation;
-      transition: background 0.15s;
-      user-select: none;
-    }
-    .font-btn:active  { background: rgba(255,255,255,0.30); }
-    .font-btn:disabled { opacity: 0.35; cursor: default; }
-    .font-size-label {
-      font-size: 0.7rem;
-      opacity: 0.85;
-      min-width: 36px;
-      text-align: center;
-      color: var(--header-fg);
-    }
-
-    /* Theme toggle button */
-    .theme-toggle {
-      background: rgba(255,255,255,0.18);
-      border: none;
-      color: var(--header-fg);
-      border-radius: 8px;
-      width: 44px;
-      height: 44px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      touch-action: manipulation;
-      transition: background 0.15s;
-      flex-shrink: 0;
-    }
-    .theme-toggle:active { background: rgba(255,255,255,0.30); }
-
-    /* Row 2: Wird button aligned left (RTL flex-end) */
-    .header-bottom {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    .wird-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.35);
-      color: var(--header-fg);
-      text-decoration: none;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-family: 'Amiri', serif;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      touch-action: manipulation;
-      transition: background 0.15s;
-      letter-spacing: 0.02em;
-    }
-    .wird-btn:active { background: rgba(255,255,255,0.28); }
-
-    /* ─── Color swatch selector ─── */
-    .title-area {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .color-selector {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .color-label {
-      font-size: 0.6rem;
-      color: var(--header-fg);
-      opacity: 0.8;
-      white-space: nowrap;
-    }
-    .color-swatch {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      cursor: pointer;
-      touch-action: manipulation;
-      transition: box-shadow 0.15s, transform 0.15s;
-      border: 2px solid transparent;
-      flex-shrink: 0;
-      padding: 0;
-    }
-    .swatch-cream { background: #FAF6F0; border-color: rgba(255,255,255,0.4); }
-    .swatch-dark  { background: #1A1612; border-color: rgba(255,255,255,0.25); }
-    .color-swatch.active {
-      box-shadow: 0 0 0 2.5px #fff;
-      transform: scale(1.18);
-    }
-    .color-swatch:active { opacity: 0.75; }
-
-    /* ─── Main Content ─── */
-    .main {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 20px 12px 60px;
-    }
-
-    /* ─── Supplication Card ─── */
-    .dua-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px 20px 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 16px var(--shadow);
-      transition: background 0.3s, border-color 0.3s;
-    }
-
-    /* Card header */
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-    }
-    .dua-num {
-      background: var(--accent);
-      color: #fff;
-      border-radius: 50%;
-      width: 46px;
-      height: 46px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    /* Supplication text */
-    .dua-text {
-      font-size: 1em;
-      line-height: 2;
-      color: var(--text);
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    /* Reference box */
-    .dua-ref {
-      background: var(--ref-bg);
-      border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 0.6rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 16px;
-      border-right: 4px solid var(--accent2);
-      transition: background 0.3s;
-    }
-    .dua-ref strong { color: var(--text); font-weight: 700; }
-    .authenticity-badge {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 6px;
-      padding: 1px 8px;
-      font-size: 0.5rem;
-      margin-top: 4px;
-    }
-
-    /* ─── Counter ─── */
-    .counter-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: center;
-      margin-top: 4px;
-    }
-    .counter-tap {
-      background: var(--counter-bg);
-      color: var(--counter-fg);
-      border: none;
-      border-radius: 16px;
-      padding: 14px 32px;
-      font-family: 'Amiri', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      touch-action: manipulation;
-      transition: transform 0.1s, opacity 0.15s;
-      user-select: none;
-      min-width: 120px;
-      text-align: center;
-      box-shadow: 0 4px 12px var(--shadow);
-    }
-    .counter-tap:active { transform: scale(0.96); }
-    .counter-num {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      min-width: 48px;
-      text-align: center;
-    }
-    .counter-reset {
-      background: var(--btn-reset);
-      color: var(--btn-reset-text);
-      border: none;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-family: 'Amiri', serif;
-      font-size: 0.65rem;
-      cursor: pointer;
-      touch-action: manipulation;
-      transition: opacity 0.15s;
-    }
-    .counter-reset:active { opacity: 0.7; }
-
-    /* ─── Divider ─── */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 0 20px 24px;
-      opacity: 0.5;
-    }
-
-    /* ─── Footer ─── */
-    .site-footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.55rem;
-      padding: 20px;
-      opacity: 0.7;
-    }
-
-    /* ─── Back-to-top ─── */
-    #back-top {
-      position: fixed;
-      bottom: 24px;
-      left: 16px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 1.4rem;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px var(--shadow);
-      touch-action: manipulation;
-      z-index: 200;
-      transition: opacity 0.2s;
-    }
-    #back-top.visible { display: flex; }
-
-    /* ─── Responsive ─── */
-    @media (max-width: 400px) {
-      .dua-card { padding: 18px 14px 16px; }
-    }
-    @media (min-width: 600px) {
-      body { font-size: calc(var(--font-size-base) + 2px); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lamhub – Where Groups Order Smarter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<!-- ══════════════════════════════════════
-     STICKY HEADER
-══════════════════════════════════════ -->
-<header class="site-header">
-  <!-- Row 1: title+color-selector | font-controls | theme-toggle -->
-  <div class="header-top">
-    <!-- Title + color swatch (upper right in RTL) -->
-    <div class="title-area">
-      <div class="site-title">
-        من جوامع دعاء النبي ﷺ
-        <small>٥٠ دعاءً جامعاً مأثوراً</small>
-      </div>
-      <div class="color-selector">
-        <span class="color-label">اللون</span>
-        <button class="color-swatch swatch-cream active" id="swatch-cream"
-                onclick="setPillTheme(false)" title="كريمي" aria-label="الوضع الكريمي"></button>
-        <button class="color-swatch swatch-dark" id="swatch-dark"
-                onclick="setPillTheme(true)"  title="ليلي"  aria-label="الوضع الليلي"></button>
-      </div>
+<div id="app" class="app-container">
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <div class="status-icons">
+            <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4.5" y="2.5" width="3" height="9.5" rx="1"/><rect x="9" y="1" width="3" height="11" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1" opacity=".3"/></svg>
+            <svg width="15" height="12" viewBox="0 0 15 12" fill="currentColor"><path d="M7.5 3.6c1.8 0 3.4.7 4.6 1.9l1.4-1.4C11.8 2.4 9.7 1.6 7.5 1.6S3.2 2.4 1.5 4.1l1.4 1.4C4.1 4.3 5.7 3.6 7.5 3.6zm0 3.6c1 0 2 .4 2.7 1.1l1.4-1.4c-1.1-1.1-2.5-1.7-4.1-1.7s-3 .6-4.1 1.7l1.4 1.4c.7-.7 1.7-1.1 2.7-1.1zM9 10.2c0 .8-.7 1.5-1.5 1.5S6 11 6 10.2s.7-1.5 1.5-1.5S9 9.4 9 10.2z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1" fill="none"/><rect x="22" y="4" width="2" height="4" rx=".5"/><rect x="2" y="3" width="14" height="6" rx="1"/></svg>
+        </div>
     </div>
-    <div class="font-controls">
-      <button class="font-btn" id="font-down" aria-label="تصغير الخط">أ−</button>
-      <span class="font-size-label" id="font-label">متوسط</span>
-      <button class="font-btn" id="font-up"   aria-label="تكبير الخط">أ+</button>
+
+    <!-- ===== WELCOME / ONBOARDING ===== -->
+    <div id="screen-welcome" class="screen">
+        <div class="screen-scroll">
+            <div class="welcome-content">
+                <div class="onboarding-slides">
+                    <div class="onboarding-slide active">
+                        <div class="onboarding-illust">
+                            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <h2 data-en="Order Together" data-ar="اطلبوا معاً">Order Together</h2>
+                        <p data-en="Create a group and let everyone pick what they love from different restaurants" data-ar="أنشئ مجموعة وخلّ الكل يختار اللي يحبه من مطاعم مختلفة">Create a group and let everyone pick what they love from different restaurants</p>
+                    </div>
+                    <div class="onboarding-slide">
+                        <div class="onboarding-illust">
+                            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <h2 data-en="One Pickup Location" data-ar="موقع استلام واحد">One Pickup Location</h2>
+                        <p data-en="All restaurants in one area — one driver picks up everything at once" data-ar="كل المطاعم في منطقة واحدة — سائق واحد يستلم كل شي">All restaurants in one area — one driver picks up everything at once</p>
+                    </div>
+                    <div class="onboarding-slide">
+                        <div class="onboarding-illust">
+                            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <h2 data-en="Save on Delivery" data-ar="وفّر على التوصيل">Save on Delivery</h2>
+                        <p data-en="Share one delivery fee instead of paying separately — save up to 60%" data-ar="شاركوا رسوم توصيل واحدة بدل ما كل واحد يدفع — وفّروا لـ 60%">Share one delivery fee instead of paying separately — save up to 60%</p>
+                    </div>
+                </div>
+                <div class="onboarding-dots">
+                    <span class="onboarding-dot active"></span>
+                    <span class="onboarding-dot"></span>
+                    <span class="onboarding-dot"></span>
+                </div>
+                <button class="auth-btn" onclick="nextOnboarding()" data-en="Get Started" data-ar="ابدأ الآن">Get Started</button>
+                <p class="auth-link" onclick="showScreen('screen-login')" data-en="Already have an account? Log in" data-ar="عندك حساب؟ سجل دخول">Already have an account? Log in</p>
+            </div>
+        </div>
     </div>
-    <button class="theme-toggle" id="theme-toggle" aria-label="تبديل المظهر" title="ليلي / نهاري">🌙</button>
-  </div>
 
-  <!-- Row 2: Daily Wird button, aligned left -->
-  <div class="header-bottom">
-    <a href="wird.html" class="wird-btn" aria-label="الورد اليومي">
-      📖 الورد اليومي
-    </a>
-  </div>
-</header>
+    <!-- ===== SIGNUP ===== -->
+    <div id="screen-signup" class="screen">
+        <div class="screen-scroll">
+            <div class="auth-container">
+                <div class="auth-header-area">
+                    <h1 class="brand-name-lg">Lamhub</h1>
+                    <p class="auth-subtitle" data-en="Create your account" data-ar="أنشئ حسابك">Create your account</p>
+                </div>
+                <div id="signup-errors" class="auth-errors" style="display:none"></div>
+                <div class="auth-form">
+                    <div class="input-group">
+                        <label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" id="signup-name" data-placeholder-en="Enter your name" data-placeholder-ar="أدخل اسمك" placeholder="Enter your name">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Email" data-ar="البريد الإلكتروني">Email</label>
+                        <input type="email" id="signup-email" data-placeholder-en="your@email.com" data-placeholder-ar="بريدك@مثال.com" placeholder="your@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Phone Number" data-ar="رقم الجوال">Phone Number</label>
+                        <input type="tel" id="signup-phone" data-placeholder-en="+966 5XX XXX XXXX" data-placeholder-ar="+966 5XX XXX XXXX" placeholder="+966 5XX XXX XXXX">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" id="signup-password" data-placeholder-en="6+ characters" data-placeholder-ar="6 أحرف على الأقل" placeholder="6+ characters">
+                    </div>
+                    <button class="auth-btn" onclick="signup()" data-en="Create Account" data-ar="إنشاء حساب">Create Account</button>
+                    <p class="auth-link" onclick="showScreen('screen-login')" data-en="Already have an account? Log in" data-ar="عندك حساب؟ سجل دخول">Already have an account? Log in</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- ══════════════════════════════════════
-     MAIN
-══════════════════════════════════════ -->
-<main class="main" id="main-content">
-  <!-- Cards injected by JS -->
-</main>
+    <!-- ===== LOGIN ===== -->
+    <div id="screen-login" class="screen">
+        <div class="screen-scroll">
+            <div class="auth-container">
+                <div class="auth-header-area">
+                    <h1 class="brand-name-lg">Lamhub</h1>
+                    <p class="auth-subtitle" data-en="Welcome back" data-ar="أهلاً بعودتك">Welcome back</p>
+                </div>
+                <div id="login-errors" class="auth-errors" style="display:none"></div>
+                <div class="auth-form">
+                    <div class="input-group">
+                        <label data-en="Email" data-ar="البريد الإلكتروني">Email</label>
+                        <input type="email" id="login-email" data-placeholder-en="your@email.com" data-placeholder-ar="بريدك@مثال.com" placeholder="your@email.com">
+                    </div>
+                    <div class="input-group">
+                        <label data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" id="login-password" data-placeholder-en="Enter password" data-placeholder-ar="أدخل كلمة المرور" placeholder="Enter password">
+                    </div>
+                    <button class="auth-btn" onclick="login()" data-en="Log In" data-ar="تسجيل الدخول">Log In</button>
+                    <p class="auth-link" onclick="showScreen('screen-signup')" data-en="Don't have an account? Sign up" data-ar="ما عندك حساب؟ سجل الآن">Don't have an account? Sign up</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<footer class="site-footer">
-  من جوامع دعاء النبي ﷺ · مجالس الذكر
-</footer>
+    <!-- ===== OTP ===== -->
+    <div id="screen-otp" class="screen">
+        <div class="screen-scroll">
+            <div class="auth-container otp-container">
+                <div class="auth-header-area">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <h2 data-en="Verify Your Phone" data-ar="تحقق من جوالك">Verify Your Phone</h2>
+                    <p class="auth-subtitle" data-en="Enter the 4-digit code sent to your phone" data-ar="أدخل الرمز المكون من 4 أرقام المرسل لجوالك">Enter the 4-digit code sent to your phone</p>
+                </div>
+                <div class="otp-inputs">
+                    <input type="tel" id="otp-1" maxlength="1" class="otp-box">
+                    <input type="tel" id="otp-2" maxlength="1" class="otp-box">
+                    <input type="tel" id="otp-3" maxlength="1" class="otp-box">
+                    <input type="tel" id="otp-4" maxlength="1" class="otp-box">
+                </div>
+                <p class="otp-timer-text"><span data-en="Resend code in " data-ar="إعادة إرسال خلال ">Resend code in </span><span id="otp-timer">1:00</span></p>
+                <button id="otp-resend" class="auth-link-btn" style="display:none" onclick="startOTPTimer()" data-en="Resend Code" data-ar="إعادة إرسال الرمز">Resend Code</button>
+            </div>
+        </div>
+    </div>
 
-<button id="back-top" aria-label="العودة للأعلى">↑</button>
+    <!-- ===== HOME ===== -->
+    <div id="screen-home" class="screen">
+        <div class="home-header">
+            <div class="header-top">
+                <div class="logo-area">
+                    <div class="logo-icon"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="14" fill="#FF6B35"/><circle cx="9" cy="12" r="3" fill="white"/><circle cx="19" cy="12" r="3" fill="white"/><circle cx="14" cy="18" r="3" fill="white"/><circle cx="14" cy="14" r="2" fill="#FF6B35"/></svg></div>
+                    <div>
+                        <h1 class="brand-name">Lamhub</h1>
+                        <p id="user-greeting" class="brand-slogan">Where Groups Order Smarter</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="lang-toggle" onclick="toggleLanguage()"><span class="lang-text">عربي</span></button>
+                    <button class="icon-btn notification-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="notification-dot"></span></button>
+                </div>
+            </div>
+            <div class="delivery-address" onclick="openLocationMap()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF6B35"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>
+                <div>
+                    <span class="address-label" data-en="Deliver to" data-ar="التوصيل إلى">Deliver to</span>
+                    <span class="address-text" data-en="King Fahd Road, Riyadh" data-ar="طريق الملك فهد، الرياض">King Fahd Road, Riyadh</span>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+        </div>
+        <div class="screen-scroll">
+            <div class="value-banner"><div class="value-banner-content">
+                <div class="value-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="15" stroke="#FF6B35" stroke-width="2"/><circle cx="10" cy="13" r="2.5" fill="#FF6B35"/><circle cx="22" cy="13" r="2.5" fill="#FF6B35"/><circle cx="16" cy="20" r="2.5" fill="#FF6B35"/><path d="M10 13L16 16L22 13" stroke="#FF6B35" stroke-width="1.5"/><path d="M16 16V20" stroke="#FF6B35" stroke-width="1.5"/></svg></div>
+                <div class="value-text">
+                    <h3 data-en="One Location · One Driver · Lower Cost" data-ar="موقع واحد · سائق واحد · تكلفة أقل">One Location · One Driver · Lower Cost</h3>
+                    <p data-en="Order from multiple restaurants, delivered together!" data-ar="اطلب من عدة مطاعم، يوصلك كلها مع بعض!">Order from multiple restaurants, delivered together!</p>
+                </div>
+            </div></div>
 
-<!-- ══════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════ -->
-<script>
-// ─────────────────────────────────────────
-// DATA: All 50 Supplications
-// ─────────────────────────────────────────
-const duas = [
-  {
-    id: 1,
-    text: `«اللَّهُمَّ رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً، وَفِي الْآخِرَةِ حَسَنَةً، وَقِنَا عَذَابَ النَّارِ»`,
-    narrator: `قال أنسٌ رضي الله عنه: كان أكثر دعاء النبيِّ ﷺ: «اللهم ربنا آتنا في الدنيا حسنة...».`,
-    source: `رواه البخاري (6389) ومسلم (2690)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 2,
-    text: `«لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ»`,
-    narrator: `عن سعد بن أبي وقاص رضي الله عنه أن النبيَّ ﷺ قال: «دعوة ذي النون إذ دعا وهو في بطن الحوت: لا إله إلا أنت سبحانك إني كنت من الظالمين؛ فإنه لم يدعُ بها رجلٌ مسلم في شيء قطُّ إلا استجاب الله له».`,
-    source: `صحيح الترغيب (1644)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 3,
-    text: `«اللَّهُمَّ اغْفِرْ لِي، وَارْحَمْنِي، وَعَافِنِي، وَارْزُقْنِي»`,
-    narrator: `عن أبي مالك الأشجعي رضي الله عنه أن النبيَّ ﷺ قال: «اللهم اغفر لي... فإن هؤلاء تجمع لك دنياك وآخرتك».`,
-    source: `رواه مسلم (2697)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 4,
-    text: `«اللَّهُمَّ أَعِنَّا عَلَى شُكْرِكَ، وَذِكْرِكَ، وَحُسْنِ عِبَادَتِكَ»`,
-    narrator: `عن أبي هريرة رضي الله عنه أن النبيَّ ﷺ قال: «أتحبون أن تجتهدوا في الدعاء؟ قولوا: اللهم أعنا...».`,
-    source: `السلسلة الصحيحة (844)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 5,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ الْمُعَافَاةَ فِي الدُّنْيَا وَالْآخِرَةِ»`,
-    narrator: `عن أبي هريرة رضي الله عنه أن النبيَّ ﷺ قال: «ما من دعوة يدعو بها العبدُ أفضلَ من: اللهم إني أسألك المعافاة...».`,
-    source: `صحيح الجامع (5703)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 6,
-    text: `«اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي، وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ، وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ»`,
-    narrator: `عن أبي هريرة رضي الله عنه قال: كان رسول الله ﷺ يقول: «اللهم أصلح لي ديني...».`,
-    source: `رواه مسلم (2720)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 7,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى، وَالتُّقَى، وَالْعَفَافَ، وَالْغِنَى»`,
-    narrator: `عن عبدالله بن مسعود رضي الله عنه عن النبيِّ ﷺ أنه كان يقول: «اللهم إني أسألك الهدى...».`,
-    source: `رواه مسلم (2721)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 8,
-    text: `«يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ»`,
-    narrator: `قالت أم سلمة رضي الله عنها: كان أكثر دعائه ﷺ: «يا مقلب القلوب...».`,
-    source: `السلسلة الصحيحة (2091)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 9,
-    text: `«اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ صَرِّفْ قُلُوبَنَا عَلَى طَاعَتِكَ»`,
-    narrator: `عن عبدالله بن عمرو رضي الله عنه عن النبيِّ ﷺ أنه قال: «إن قلوب بني آدم كلها بين إصبعين من أصابع الرحمن كقلب واحد. يصرفه حيث يشاء» ثم قال رسول الله ﷺ: «اللهم مصرف القلوب...».`,
-    source: `رواه مسلم (2654)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 10,
-    text: `«اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي»`,
-    narrator: `عن علي رضي الله عنه قال: قال لي رسول الله ﷺ: «قل: اللهم اهدني وسددني، واذكر بالهدى هدايتك الطريق، والسداد سداد السهم».`,
-    source: `رواه مسلم (2725)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 11,
-    text: `«اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي»`,
-    narrator: `عن عائشة رضي الله عنها قالت: قلت يا رسول الله أرأيت إن وافقتُ ليلةَ القدر ما أدعو؟ قال: «تقولين: اللهم إنك عفو...».`,
-    source: `صحيح ابن ماجة (3119)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 12,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ، فَإِنَّهُ لَا يَمْلِكُهَا إِلَّا أَنْتَ»`,
-    narrator: `عن عبدالله بن مسعود رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم إني أسألك من فضلك...».`,
-    source: `السلسلة الصحيحة (1543)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 13,
-    text: `«اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ»`,
-    narrator: `عن علي رضي الله عنه أن النبيَّ ﷺ قال له: «ألا أعلمك كلمات، لو كان عليك مثل جبل أحد دَيناً أدَّاه الله عنك؟ قل: اللهم اكفني...».`,
-    source: `صحيح الجامع (2625)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 14,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مُنْكَرَاتِ الْأَخْلَاقِ وَالْأَعْمَالِ وَالْأَهْوَاءِ»`,
-    narrator: `عن قطبة بن مالك رضي الله عنه قال: كان النبيُّ ﷺ يقول: «اللهم إني أعوذ بك...».`,
-    source: `صحيح الترمذي (3591)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 15,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبَرَصِ، وَالْجُنُونِ، وَالْجُذَامِ، وَمِنْ سَيِّئِ الْأَسْقَامِ»`,
-    narrator: `عن أنس بن مالك رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم إني أعوذ بك من البرص...».`,
-    source: `صحيح الجامع (1281)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 16,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَارِ السُّوءِ فِي دَارِ الْمُقَامَةِ، فَإِنَّ جَارَ الْبَادِيَةِ يَتَحَوَّلُ»`,
-    narrator: `عن أبي هريرة رضي الله عنه أن النبيَّ ﷺ كان يقول في دعائه: «اللهم إني أعوذ بك من جار السوء...».`,
-    source: `صحيح الجامع (1290)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 17,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْقِلَّةِ وَالْفَقْرِ وَالذِّلَّةِ، وَأَعُوذُ بِكَ أَنْ أَظْلِمَ أَوْ أُظْلَمَ»`,
-    narrator: `عن أبي هريرة رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم إني أعوذ بك من القلة...».`,
-    source: `صحيح النسائي (5477)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 18,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ، وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ، اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ مِنْهُ عَبْدُكَ وَنَبِيُّكَ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا عَاذَ بِهِ عَبْدُكَ وَنَبِيُّكَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ، وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ، وَأَسْأَلُكَ أَنْ تَجْعَلَ كُلَّ قَضَاءٍ قَضَيْتَهُ لِي خَيْرًا»`,
-    narrator: `عن عائشة رضي الله عنها أن النبيَّ ﷺ كان يقول: «اللهم إني أسألك...».`,
-    source: `السلسلة الصحيحة (1542)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 19,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الْأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ، وَأَسْأَلُكَ مُوجِبَاتِ رَحْمَتِكَ، وَعَزَائِمَ مَغْفِرَتِكَ، وَأَسْأَلُكَ شُكْرَ نِعْمَتِكَ، وَحُسْنَ عِبَادَتِكَ، وَأَسْأَلُكَ قَلْبًا سَلِيمًا، وَلِسَانًا صَادِقًا، وَأَسْأَلُكَ مِنْ خَيْرِ مَا تَعْلَمُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا تَعْلَمُ، وَأَسْتَغْفِرُكَ لِمَا تَعْلَمُ؛ إِنَّكَ أَنْتَ عَلَّامُ الْغُيُوبِ»`,
-    narrator: `عن شداد بن أوس رضي الله عنه أن النبيَّ ﷺ قال له: «يا شداد بن أوس إذا رأيتَ الناس قد اكتنزوا الذهب والفضة؛ فاكنز هؤلاء الكلمات: اللهم إني أسألك الثبات...».`,
-    source: `السلسلة الصحيحة (3228)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 20,
-    text: `«اللَّهُمَّ اقْسِمْ لَنَا مِنْ خَشْيَتِكَ مَا يَحُولُ بَيْنَنَا وَبَيْنَ مَعَاصِيكَ، وَمِنْ طَاعَتِكَ مَا تُبَلِّغُنَا بِهِ جَنَّتَكَ، وَمِنَ الْيَقِينِ مَا تُهَوِّنُ بِهِ عَلَيْنَا مُصِيبَاتِ الدُّنْيَا، وَمَتِّعْنَا بِأَسْمَاعِنَا وَأَبْصَارِنَا وَقُوَّتِنَا مَا أَحْيَيْتَنَا، وَاجْعَلْهُ الْوَارِثَ مِنَّا، وَاجْعَلْ ثَأْرَنَا عَلَى مَنْ ظَلَمَنَا، وَانْصُرْنَا عَلَى مَنْ عَادَانَا، وَلَا تَجْعَلْ مُصِيبَتَنَا فِي دِينِنَا، وَلَا تَجْعَلِ الدُّنْيَا أَكْبَرَ هَمِّنَا وَلَا مَبْلَغَ عِلْمِنَا، وَلَا تُسَلِّطْ عَلَيْنَا مَنْ لَا يَرْحَمُنَا»`,
-    narrator: `عن عبدالله بن عمر رضي الله عنه قال: قلَّما كان رسول الله ﷺ يقوم من مجلس حتى يدعو بهؤلاء الكلمات لأصحابه: «اللهم اقسم لنا من خشيتك...».`,
-    source: `صحيح الترمذي (3502)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 21,
-    text: `«اللَّهُمَّ احْفَظْنِي بِالْإِسْلَامِ قَائِمًا، وَاحْفَظْنِي بِالْإِسْلَامِ قَاعِدًا، وَاحْفَظْنِي بِالْإِسْلَامِ رَاقِدًا، وَلَا تُشْمِتْ بِي عَدُوًّا وَلَا حَاسِدًا، اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ كُلِّ خَيْرٍ خَزَائِنُهُ بِيَدَكَ، وَأَعُوذُ بِكَ مِنْ كُلِّ شَرٍّ خَزَائِنُهُ بِيَدَكَ»`,
-    narrator: `عن عبدالله بن مسعود رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم احفظني بالإسلام قائمًا...».`,
-    source: `صحيح الجامع (1260)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 22,
-    text: `«اللَّهُمَّ بِعِلْمِكَ الْغَيْبَ وَقُدْرَتِكَ عَلَى الْخَلْقِ، أَحْيِنِي مَا عَلِمْتَ الْحَيَاةَ خَيْرًا لِي، وَتَوَفَّنِي إِذَا عَلِمْتَ الْوَفَاةَ خَيْرًا لِي، اللَّهُمَّ إِنِّي أَسْأَلُكَ خَشْيَتَكَ فِي الْغَيْبِ وَالشَّهَادَةِ، وَأَسْأَلُكَ كَلِمَةَ الْحَقِّ فِي الرِّضَا وَالْغَضَبِ، وَأَسْأَلُكَ الْقَصْدَ فِي الْفَقْرِ وَالْغِنَى، وَأَسْأَلُكَ نَعِيمًا لَا يَنْفَدُ، وَأَسْأَلُكَ قُرَّةَ عَيْنٍ لَا تَنْقَطِعُ، وَأَسْأَلُكَ الرِّضَى بَعْدَ الْقَضَاءِ، وَأَسْأَلُكَ بَرْدَ الْعَيْشِ بَعْدَ الْمَوْتِ، وَأَسْأَلُكَ لَذَّةَ النَّظَرِ إِلَى وَجْهِكَ، وَالشَّوْقَ إِلَى لِقَائِكَ فِي غَيْرِ ضَرَّاءَ مُضِرَّةٍ، وَلَا فِتْنَةٍ مُضِلَّةٍ، اللَّهُمَّ زَيِّنَّا بِزِينَةِ الْإِيمَانِ، وَاجْعَلْنَا هُدَاةً مُهْتَدِينَ»`,
-    narrator: `عن عمار بن ياسر رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم بعلمك الغيب...».`,
-    source: `صحيح الكلم الطيب (106)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 23,
-    text: `«رَبِّ أَعِنِّي وَلَا تُعِنْ عَلَيَّ، وَانْصُرْنِي وَلَا تَنْصُرْ عَلَيَّ، وَامْكُرْ لِي وَلَا تَمْكُرْ عَلَيَّ، وَاهْدِنِي وَيَسِّرِ الْهُدَى لِي، وَانْصُرْنِي عَلَى مَنْ بَغَى عَلَيَّ، رَبِّ اجْعَلْنِي لَكَ شَكَّارًا، لَكَ ذَكَّارًا، لَكَ رَهَّابًا، لَكَ مِطْوَاعًا، لَكَ مُخْبِتًا، إِلَيْكَ أَوَّاهًا مُنِيبًا، رَبِّ تَقَبَّلْ تَوْبَتِي، وَاغْسِلْ حَوْبَتِي، وَأَجِبْ دَعْوَتِي، وَثَبِّتْ حُجَّتِي، وَسَدِّدْ لِسَانِي، وَاهْدِ قَلْبِي، وَاسْلُلْ سَخِيمَةَ صَدْرِي»`,
-    narrator: `عن عبدالله بن عباس رضي الله عنهما قال: كان النبيُّ ﷺ يدعو يقول: «رب أعني ولا تعن علي...».`,
-    source: `صحيح الترمذي (3551)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 24,
-    text: `«اللَّهُمَّ حَاسِبْنِي حِسَابًا يَسِيرًا»`,
-    narrator: `عن عائشة رضي الله عنها قالت: سمعت رسول الله ﷺ يقول في بعض صلاته: «اللهم حاسبني حسابًا يسيرًا».`,
-    source: `تخريج مشكاة المصابيح (5495)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 25,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ فِعْلَ الْخَيْرَاتِ، وَتَرْكَ الْمُنْكَرَاتِ، وَحُبَّ الْمَسَاكِينِ، وَإِذَا أَرَدْتَ بِعِبَادِكَ فِتْنَةً فَاقْبِضْنِي إِلَيْكَ غَيْرَ مَفْتُونٍ»`,
-    narrator: `عن عبدالله بن عباس رضي الله عنهما أن النبيَّ ﷺ قال: «...وقال يا محمد، إذا صليتَ فقل: اللهم إني أسألك فعل الخيرات...».`,
-    source: `صحيح الترمذي (3233)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 26,
-    text: `«اللَّهُمَّ إِنِّي عَبْدُكَ، وَابْنُ عَبْدِكَ، وَابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ، أَسْأَلُكَ بِكُلِّ اسْمٍ هُوَ لَكَ سَمَّيْتَ بِهِ نَفْسَكَ، أَوْ عَلَّمْتَهُ أَحَدًا مِنْ خَلْقِكَ، أَوْ أَنْزَلْتَهُ فِي كِتَابِكَ، أَوِ اسْتَأْثَرْتَ بِهِ فِي عِلْمِ الْغَيْبِ عِنْدَكَ، أَنْ تَجْعَلَ الْقُرْآنَ رَبِيعَ قَلْبِي، وَنُورَ صَدْرِي، وَجَلَاءَ حُزْنِي، وَذَهَابَ هَمِّي»`,
-    narrator: `عن عبدالله بن مسعود رضي الله عنه أن النبيَّ ﷺ قال: «ما أصاب أحدًا قطُّ همٌّ ولا حزن، فقال: اللهم إني عبدك...، إلا أذهب الله همَّه وحزنه، وأبدله مكانه فرجًا».`,
-    source: `السلسلة الصحيحة (199)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 27,
-    text: `«اللَّهُمَّ مَالِكَ الْمُلْكِ تُؤْتِي الْمُلْكَ مَنْ تَشَاءُ، وَتَنْزِعُ الْمُلْكَ مِمَّنْ تَشَاءُ، وَتُعِزُّ مَنْ تَشَاءُ، وَتُذِلُّ مَنْ تَشَاءُ، بِيَدِكَ الْخَيْرُ إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَحْمَنَ الدُّنْيَا وَالْآخِرَةِ وَرَحِيمَهُمَا، تُعْطِيهِمَا مَنْ تَشَاءُ، وَتَمْنَعُ مِنْهُمَا مَنْ تَشَاءُ، ارْحَمْنِي رَحْمَةً تُغْنِينِي بِهَا عَنْ رَحْمَةِ مَنْ سِوَاكَ»`,
-    narrator: `عن أنس بن مالك رضي الله عنه أن النبيَّ ﷺ قال: «ألا أُعلِّمك دعاءً تدعو به، لو كان عليك مثل جبل أحد دَينًا لأدَّاه الله عنك؟ قل يا معاذ: اللهم مالك الملك...».`,
-    source: `صحيح الترغيب (1821)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 28,
-    text: `«اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ، وَرَبَّ الْعَرْشِ الْعَظِيمِ، رَبَّنَا وَرَبَّ كُلِّ شَيْءٍ، مُنْزِلَ التَّوْرَاةِ وَالْإِنْجِيلِ وَالْقُرْآنِ، فَالِقَ الْحَبِّ وَالنَّوَى، أَعُوذُ بِكَ مِنْ شَرِّ كُلِّ شَيْءٍ أَنْتَ آخِذٌ بِنَاصِيَتِهِ، أَنْتَ الْأَوَّلُ فَلَيْسَ قَبْلَكَ شَيْءٌ، وَأَنْتَ الْآخِرُ فَلَيْسَ بَعْدَكَ شَيْءٌ، وَأَنْتَ الظَّاهِرُ فَلَيْسَ فَوْقَكَ شَيْءٌ، وَأَنْتَ الْبَاطِنُ فَلَيْسَ دُونَكَ شَيْءٌ، اقْضِ عَنِّي الدَّيْنَ، وَأَغْنِنِي مِنَ الْفَقْرِ»`,
-    narrator: `عن أبي هريرة رضي الله عنه قال: «جاءت فاطمة إلى النبيِّ ﷺ تسأله خادمًا، فقال لها: قولي: اللهم رب السماوات السبع...».`,
-    source: `صحيح الترمذي (3481)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 29,
-    text: `«اللَّهُمَّ إِنِّي أَسْأَلُكَ إِيمَانًا لَا يَرْتَدُّ، وَنَعِيمًا لَا يَنْفَدُ، وَمُرَافَقَةَ مُحَمَّدٍ فِي أَعْلَى جَنَّةِ الْخُلْدِ»`,
-    narrator: `دعا به عبدالله بن مسعود رضي الله عنه في صلاته، فقال النبيُّ ﷺ: «اسأل تُعطَه، اسأل تُعطَه».`,
-    source: `السلسلة الصحيحة (5/379)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 30,
-    text: `«اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَارْزُقْنِي عِلْمًا تَنْفَعُنِي بِهِ»`,
-    narrator: `عن أنس بن مالك رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم انفعني بما علمتني...».`,
-    source: `السلسلة الصحيحة (3151)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 31,
-    text: `«اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا، وَفِي بَصَرِي نُورًا، وَفِي سَمْعِي نُورًا، وَعَنْ يَمِينِي نُورًا، وَعَنْ يَسَارِي نُورًا، وَفَوْقِي نُورًا، وَتَحْتِي نُورًا، وَأَمَامِي نُورًا، وَخَلْفِي نُورًا، وَاجْعَلْ لِي نُورًا»`,
-    narrator: `عن عبدالله بن عباس رضي الله عنهما أنه رقد عند رسول الله ﷺ فاستيقظ فتسوَّك وتوضأ، فأذَّن المؤذن فخرج إلى الصلاة وهو يقول: «اللهم اجعل في قلبي نورًا...».`,
-    source: `رواه البخاري (6316) ومسلم (763)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 32,
-    text: `«اللَّهُمَّ أَحْيِنِي مِسْكِينًا، وَأَمِتْنِي مِسْكِينًا، وَاحْشُرْنِي فِي زُمْرَةِ الْمَسَاكِينِ يَوْمَ الْقِيَامَةِ»`,
-    narrator: `عن أنس بن مالك رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم أحيني مسكينًا...»، فقالت عائشة: لمَ يا رسول الله؟ قال: «إنهم يدخلون الجنة قبل أغنيائهم بأربعين خريفًا».`,
-    source: `صحيح الترمذي (2352)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 33,
-    text: `«اللَّهُمَّ اسْتُرْ عَوْرَتِي، وَآمِنْ رَوْعَتِي، وَاقْضِ عَنِّي دَيْنِي»`,
-    narrator: `عن خباب بن الأرت رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم استر عورتي...».`,
-    source: `صحيح الجامع (1262)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 34,
-    text: `«اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ»`,
-    narrator: `قال أبو بكر الصديق رضي الله عنه للنبيِّ ﷺ: يا رسول الله، علِّمني دعاءً أدعو به في صلاتي، قال: «قل: اللهم إني ظلمتُ نفسي...».`,
-    source: `رواه البخاري (834)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 35,
-    text: `«اللَّهُمَّ أَنْتَ رَبِّي، لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي، وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ»`,
-    narrator: `عن سداد بن أوس رضي الله عنه عن النبيِّ ﷺ قال: «سيد الاستغفار أن تقول: اللهم أنت ربي... ومن قالها من النهار موقنًا بها، فمات من يومه قبل أن يمسي، فهو من أهل الجنة».`,
-    source: `رواه البخاري (6306)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 36,
-    text: `«أَسْتَغْفِرُ اللهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ»`,
-    narrator: `عن عبدالله بن مسعود رضي الله عنه أن النبيَّ ﷺ قال: «من قال: أستغفر الله الذي لا إله إلا هو... يقولها ثلاثًا؛ غُفر له وإن كان فرَّ من الزحف».`,
-    source: `صحيح الترغيب (1623)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 37,
-    text: `«رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي، وَإِسْرَافِي فِي أَمْرِي كُلِّهِ، وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي، اللَّهُمَّ اغْفِرْ لِي خَطَايَايَ، وَعَمْدِي وَجَهْلِي وَهَزْلِي، وَكُلُّ ذَلِكَ عِنْدِي، اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ، وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ، أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ، وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ»`,
-    narrator: `عن أبي موسى الأشعري رضي الله عنه أن النبيَّ ﷺ كان يدعو بهذا الدعاء: «رب اغفر لي خطيئتي...».`,
-    source: `رواه البخاري (6398) ومسلم (2719)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 38,
-    text: `«اللَّهُمَّ اغْفِرْ لِي ذُنُوبِي وَخَطَايَايَ كُلَّهَا، اللَّهُمَّ أَنْعِشْنِي وَاجْبُرْنِي، وَاهْدِنِي لِصَالِحِ الْأَعْمَالِ وَالْأَخْلَاقِ؛ فَإِنَّهُ لَا يَهْدِي لِصَالِحِهَا وَلَا يَصْرِفُ سَيِّئَهَا إِلَّا أَنْتَ»`,
-    narrator: `عن أبي أمامة الباهلي رضي الله عنه أن النبيَّ ﷺ كان يقول: «اللهم اغفر لي ذنوبي...».`,
-    source: `صحيح الجامع (1266)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 39,
-    text: `«اللَّهُمَّ لَكَ أَسْلَمْتُ، وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ، وَإِلَيْكَ أَنَبْتُ، وَبِكَ خَاصَمْتُ، اللَّهُمَّ إِنِّي أَعُوذُ بِعِزَّتِكَ، لَا إِلَهَ إِلَّا أَنْتَ؛ أَلَّا تُضِلَّنِي، أَنْتَ الْحَيُّ الَّذِي لَا يَمُوتُ، وَالْجِنُّ وَالْإِنْسُ يَمُوتُونَ»`,
-    narrator: `عن عبدالله بن عباس رضي الله عنهما أن النبيَّ ﷺ كان يقول: «اللهم لك أسلمت...».`,
-    source: `صحيح الجامع (1309)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 40,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الْأَعْدَاءِ»`,
-    narrator: `عن أبي هريرة رضي الله عنه أن النبيَّ ﷺ «كان يتعوذ من سوء القضاء...».`,
-    source: `صحيح البخاري (6347)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 41,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ»`,
-    narrator: `قال أنس رضي الله عنه في قصة ذهابه مع رسول الله ﷺ إلى خيبر: فكنت أخدم رسول الله ﷺ إذا نزل، فكنت أسمعه كثيرًا يقول: «اللهم إني أعوذ بك من الهم...».`,
-    source: `صحيح البخاري (2893)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 42,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ، وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ»`,
-    narrator: `سُئلت عائشة رضي الله عنها عن دعاء كان يدعو به رسول الله ﷺ، فقالت: كان يقول: «اللهم إني أعوذ بك من شر ما عملت...».`,
-    source: `صحيح مسلم (2716)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 43,
-    text: `«اللَّهُمَّ أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ، وَبِمُعَافَاتِكَ مِنْ عُقُوبَتِكَ، وَأَعُوذُ بِكَ مِنْكَ، لَا أُحْصِي ثَنَاءً عَلَيْكَ أَنْتَ كَمَا أَثْنَيْتَ عَلَى نَفْسِكَ»`,
-    narrator: `عن عائشة رضي الله عنها قالت: فقدتُ رسول الله ﷺ ليلةً من الفراش فالتمسته فوقعت يدي على بطن قدميه وهو في المسجد وهما منصوبتان وهو يقول: «اللهم أعوذ برضاك...».`,
-    source: `رواه مسلم (486)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 44,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ»`,
-    narrator: `عن عبدالله بن عمر رضي الله عنهما قال: كان من دعاء رسول الله ﷺ: «اللهم إني أعوذ بك من زوال نعمتك...».`,
-    source: `رواه مسلم (2739)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 45,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبُخْلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ، وَأَعُوذُ بِكَ مِنْ أَنْ نُرَدَّ إِلَى أَرْذَلِ الْعُمُرِ، وَأَعُوذُ بِكَ مِنْ فِتْنَةِ الدُّنْيَا، وَعَذَابِ الْقَبْرِ»`,
-    narrator: `عن سعد بن أبي وقاص رضي الله عنه قال: كان النبيُّ ﷺ يعلِّمنا هؤلاء الكلمات، كما تُعَلَّم الكتابة: «اللهم إني أعوذ بك من البخل...».`,
-    source: `رواه البخاري (6390)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 46,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ، وَالْكَسَلِ، وَالْجُبْنِ، وَالْبُخْلِ، وَالْهَرَمِ، وَعَذَابِ الْقَبْرِ، اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا، وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا، أَنْتَ وَلِيُّهَا وَمَوْلَاهَا، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ، وَمِنْ قَلْبٍ لَا يَخْشَعُ، وَمِنْ نَفْسٍ لَا تَشْبَعُ، وَمِنْ دَعْوَةٍ لَا يُسْتَجَابُ لَهَا»`,
-    narrator: `عن زيد بن أرقم رضي الله عنه قال: لا أقول لكم إلا كما كان رسول الله ﷺ يقول: كان يقول: «اللهم إني أعوذ بك من العجز...».`,
-    source: `رواه مسلم (2722)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 47,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ سَمْعِي، وَمِنْ شَرِّ بَصَرِي، وَمِنْ شَرِّ لِسَانِي، وَمِنْ شَرِّ قَلْبِي، وَمِنْ شَرِّ مَنِيِّي»`,
-    narrator: `عن شكل بن حميد العبسي رضي الله عنه أن النبيَّ ﷺ قال له: «قل: اللهم إني أعوذ بك من شر سمعي...».`,
-    source: `صحيح الجامع (4399)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 48,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَدْمِ، وَأَعُوذُ بِكَ مِنَ التَّرَدِّي، وَأَعُوذُ بِكَ مِنَ الْغَرَقِ وَالْحَرْقِ وَالْهَرَمِ، وَأَعُوذُ بِكَ أَنْ يَتَخَبَّطَنِيَ الشَّيْطَانُ عِنْدَ الْمَوْتِ، وَأَعُوذُ بِكَ أَنْ أَمُوتَ فِي سَبِيلِكَ مُدْبِرًا، وَأَعُوذُ بِكَ أَنْ أَمُوتَ لَدِيغًا»`,
-    narrator: `عن كعب بن عمرو رضي الله عنه أن رسول الله ﷺ كان يدعو: «اللهم إني أعوذ بك من الهدم...».`,
-    source: `صحيح أبي داود (1552)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 49,
-    text: `«اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتْنَةِ النَّارِ وَعَذَابِ النَّارِ، وَفِتْنَةِ الْقَبْرِ وَعَذَابِ الْقَبْرِ، وَشَرِّ فِتْنَةِ الْغِنَى وَشَرِّ فِتْنَةِ الْفَقْرِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ، اللَّهُمَّ اغْسِلْ قَلْبِي بِمَاءِ الثَّلْجِ وَالْبَرَدِ، وَنَقِّ قَلْبِي مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الْأَبْيَضَ مِنَ الدَّنَسِ، وَبَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ، وَالْمَأْثَمِ وَالْمَغْرَمِ»`,
-    narrator: `عن عائشة رضي الله عنها أن النبيَّ ﷺ كان يقول: «اللهم إني أعوذ بك من فتنة النار...».`,
-    source: `رواه البخاري (6377)`,
-    auth: `حديث صحيح`
-  },
-  {
-    id: 50,
-    text: `«اللَّهُمَّ رَبَّ جِبْرَائِيلَ وَمِيكَائِيلَ، وَرَبَّ إِسْرَافِيلَ، أَعُوذُ بِكَ مِنْ حَرِّ النَّارِ، وَمِنْ عَذَابِ الْقَبْرِ»`,
-    narrator: `عن عائشة رضي الله عنها أن النبيَّ ﷺ كان يقول: «اللهم رب جبرائيل...».`,
-    source: `صحيح النسائي (5534)`,
-    auth: `حديث صحيح`
-  }
-];
+            <div class="section-header"><div class="section-title-row"><span class="new-badge">NEW</span><h2 data-en="Where Will We Deliver From?" data-ar="من وين بنوصّل؟">Where Will We Deliver From?</h2></div></div>
+            <div class="hub-cards">
+                <div class="hub-card" onclick="showScreen('screen-restaurants')"><div class="hub-card-icon" style="background:linear-gradient(135deg,#FF6B35,#FF8F65)"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><h3 data-en="Restaurant Area Hubs" data-ar="تجمعات المطاعم">Restaurant Area Hubs</h3><p data-en="Restaurants & cafés in the same block" data-ar="مطاعم وكافيهات في نفس الحي">Restaurants & cafés in the same block</p></div>
+                <div class="hub-card" onclick="showScreen('screen-restaurants')"><div class="hub-card-icon" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><h3 data-en="Cloud Kitchen Hubs" data-ar="مطابخ سحابية">Cloud Kitchen Hubs</h3><p data-en="Multiple brands under one roof" data-ar="عدة علامات تجارية تحت سقف واحد">Multiple brands under one roof</p></div>
+                <div class="hub-card" onclick="showScreen('screen-restaurants')"><div class="hub-card-icon" style="background:linear-gradient(135deg,#059669,#34D399)"><svg width="28" height="28" viewBox="0 0 24 24" fill="white"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" fill="none" stroke="white" stroke-width="2"/></svg></div><h3 data-en="Supermarket & Dining" data-ar="سوبرماركت ومطاعم">Supermarket & Dining</h3><p data-en="Markets with nearby cafés" data-ar="أسواق مع كافيهات قريبة">Markets with nearby cafés</p></div>
+            </div>
 
-// ─────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────
-const counters = {};
-duas.forEach(d => { counters[d.id] = 0; });
+            <div class="section-header"><h2 data-en="Nearby Restaurants & Cafés" data-ar="مطاعم وكافيهات قريبة">Nearby Restaurants & Cafés</h2><span class="see-all" data-en="See all" data-ar="عرض الكل">See all</span></div>
+            <div class="area-tabs">
+                <button class="area-tab active" onclick="switchArea(this,'hittin')"><span data-en="Hittin" data-ar="حطين">Hittin</span><span class="area-distance">2.3 km</span></button>
+                <button class="area-tab" onclick="switchArea(this,'olaya')"><span data-en="Olaya" data-ar="العليا">Olaya</span><span class="area-distance">3.1 km</span></button>
+                <button class="area-tab" onclick="switchArea(this,'malqa')"><span data-en="Al Malqa" data-ar="الملقا">Al Malqa</span><span class="area-distance">4.5 km</span></button>
+                <button class="area-tab" onclick="switchArea(this,'nakheel')"><span data-en="Al Nakheel" data-ar="النخيل">Al Nakheel</span><span class="area-distance">5.2 km</span></button>
+                <button class="area-tab" onclick="switchArea(this,'kafd')"><span data-en="KAFD" data-ar="كافد">KAFD</span><span class="area-distance">6.0 km</span></button>
+            </div>
+            <div id="area-restaurants-list" class="area-restaurants-dynamic"></div>
 
-const FONT_SIZES = [
-  { label: 'صغير',  px: 18 },
-  { label: 'متوسط', px: 24 },
-  { label: 'كبير',  px: 30 },
-  { label: 'أكبر',  px: 36 }
-];
-let fontIdx = 1; // default: متوسط
+            <div class="group-cta"><div class="group-cta-content">
+                <div class="group-cta-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <div><h3 data-en="Start a Group Order" data-ar="ابدأ طلب جماعي">Start a Group Order</h3><p data-en="Invite friends & family to order together" data-ar="ادعُ أصدقاءك وعائلتك للطلب معاً">Invite friends & family to order together</p></div>
+            </div><button class="cta-button" onclick="createGroup()" data-en="Create Group" data-ar="إنشاء مجموعة">Create Group</button></div>
+            <div style="height:100px"></div>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// RENDER CARDS
-// ─────────────────────────────────────────
-function renderCards() {
-  const main = document.getElementById('main-content');
-  main.innerHTML = '';
-  duas.forEach((dua, i) => {
-    const card = document.createElement('article');
-    card.className = 'dua-card';
-    card.id = `dua-${dua.id}`;
-    card.innerHTML = `
-      <div class="card-header">
-        <div class="dua-num">${dua.id}</div>
-      </div>
-      <div class="dua-text">${dua.text}</div>
-      <div class="dua-ref">
-        <strong>الرواية:</strong> ${dua.narrator}<br>
-        <strong>المصدر:</strong> ${dua.source}<br>
-        <span class="authenticity-badge">${dua.auth}</span>
-      </div>
-      <div class="counter-area">
-        <button class="counter-reset" onclick="resetCounter(${dua.id})" aria-label="إعادة تعيين">↺ صفر</button>
-        <span class="counter-num" id="count-${dua.id}">٠</span>
-        <button class="counter-tap" onclick="tapCounter(${dua.id})" aria-label="تسبيح">اضغط للعدّ</button>
-      </div>
-    `;
-    main.appendChild(card);
-    if (i < duas.length - 1) {
-      const div = document.createElement('div');
-      div.className = 'divider';
-      main.appendChild(div);
-    }
-  });
-}
+    <!-- ===== GROUP ===== -->
+    <div id="screen-group" class="screen">
+        <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-home')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><h2 data-en="Group Order" data-ar="طلب جماعي">Group Order</h2><div style="width:24px"></div></div>
+        <div class="screen-scroll"><div id="group-content"></div><div style="height:100px"></div></div>
+    </div>
 
-// ─────────────────────────────────────────
-// COUNTER
-// ─────────────────────────────────────────
-function tapCounter(id) {
-  counters[id]++;
-  updateCountDisplay(id);
-  const btn = document.querySelector(`#dua-${id} .counter-tap`);
-  if (btn) {
-    btn.style.transform = 'scale(0.94)';
-    setTimeout(() => { btn.style.transform = ''; }, 120);
-  }
-}
-function resetCounter(id) { counters[id] = 0; updateCountDisplay(id); }
-function updateCountDisplay(id) {
-  const el = document.getElementById(`count-${id}`);
-  if (el) el.textContent = toArabicNum(counters[id]);
-}
-function toArabicNum(n) {
-  return n.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-}
+    <!-- ===== RESTAURANTS ===== -->
+    <div id="screen-restaurants" class="screen">
+        <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-home')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><h2 data-en="Choose Restaurants" data-ar="اختر المطاعم">Choose Restaurants</h2><div style="width:24px"></div></div>
+        <div class="screen-scroll">
+            <div class="search-bar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" data-placeholder-en="Search restaurants..." data-placeholder-ar="ابحث عن مطاعم..." placeholder="Search restaurants..."></div>
+            <div class="filter-chips">
+                <button class="filter-chip all-stores-chip" id="all-stores-chip" onclick="toggleAllStores()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span data-en="All Stores" data-ar="كل المتاجر">All Stores</span></button>
+                <button class="filter-chip active" data-filter="All" onclick="setFilter('All',this)" data-en="All" data-ar="الكل">All</button>
+                <button class="filter-chip" data-filter="Burgers" onclick="setFilter('Burgers',this)" data-en="Burgers" data-ar="برجر">Burgers</button>
+                <button class="filter-chip" data-filter="Coffee" onclick="setFilter('Coffee',this)" data-en="Coffee" data-ar="قهوة">Coffee</button>
+                <button class="filter-chip" data-filter="BBQ" onclick="setFilter('BBQ',this)" data-en="BBQ" data-ar="مشويات">BBQ</button>
+                <button class="filter-chip" data-filter="Café" onclick="setFilter('Café',this)" data-en="Café" data-ar="كافيه">Café</button>
+                <button class="filter-chip" data-filter="Asian" onclick="setFilter('Asian',this)" data-en="Asian" data-ar="آسيوي">Asian</button>
+                <button class="filter-chip" data-filter="Breakfast" onclick="setFilter('Breakfast',this)" data-en="Breakfast" data-ar="فطور">Breakfast</button>
+            </div>
+            <div class="hub-location-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FF6B35"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg><span data-en="All areas · 25 restaurants" data-ar="جميع المناطق · 25 مطعم">All areas · 25 restaurants</span></div>
+            <div id="restaurants-grid" class="restaurant-grid"></div>
+            <div style="height:100px"></div>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// FONT SIZE
-// ─────────────────────────────────────────
-function applyFont() {
-  const f = FONT_SIZES[fontIdx];
-  document.documentElement.style.setProperty('--font-size-base', f.px + 'px');
-  document.getElementById('font-label').textContent = f.label;
-  document.getElementById('font-up').disabled   = (fontIdx === FONT_SIZES.length - 1);
-  document.getElementById('font-down').disabled = (fontIdx === 0);
-  localStorage.setItem('athkar-font', fontIdx);
-}
-document.getElementById('font-up').addEventListener('click', () => {
-  if (fontIdx < FONT_SIZES.length - 1) { fontIdx++; applyFont(); }
-});
-document.getElementById('font-down').addEventListener('click', () => {
-  if (fontIdx > 0) { fontIdx--; applyFont(); }
-});
+    <!-- ===== MENU ===== -->
+    <div id="screen-menu" class="screen">
+        <div class="menu-cover-area">
+            <div id="menu-cover" class="menu-cover"></div>
+            <button class="menu-back-btn" onclick="showScreen('screen-restaurants')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <div class="menu-header-info">
+                <h2 id="menu-name"></h2>
+                <div class="menu-meta"><span id="menu-rating"></span><span class="menu-dot">·</span><span id="menu-cuisine"></span><span class="menu-dot">·</span><span id="menu-time"></span></div>
+            </div>
+        </div>
+        <div class="screen-scroll">
+            <div id="menu-categories" class="menu-categories"></div>
+            <div id="menu-items" class="menu-items-list"></div>
+            <div style="height:100px"></div>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// THEME: cream ↔ dark
-// ─────────────────────────────────────────
-let isDark = false;
+    <!-- ===== ITEM DETAIL MODAL ===== -->
+    <div id="item-detail-modal" class="item-modal">
+        <div class="item-modal-content">
+            <button class="item-modal-close" onclick="closeItemDetail()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            <div class="detail-img-area"><img id="detail-img" src="" alt=""></div>
+            <div class="detail-content">
+                <h3 id="detail-name"></h3>
+                <p id="detail-desc" class="detail-desc"></p>
+                <span id="detail-price" class="detail-price"></span>
+                <div class="detail-qty-row">
+                    <span data-en="Quantity" data-ar="الكمية">Quantity</span>
+                    <div class="qty-control lg">
+                        <button class="qty-btn" onclick="changeDetailQty(-1)">−</button>
+                        <span id="detail-qty" class="qty-num">1</span>
+                        <button class="qty-btn" onclick="changeDetailQty(1)">+</button>
+                    </div>
+                </div>
+                <button class="detail-add-btn" onclick="addItemFromDetail()"><span data-en="Add to Cart" data-ar="أضف للسلة">Add to Cart</span> · <span id="detail-total">SAR 0</span></button>
+            </div>
+        </div>
+    </div>
 
-function applyTheme() {
-  if (isDark) {
-    document.body.setAttribute('data-theme', 'dark');
-    document.getElementById('theme-toggle').textContent = '☀️';
-    document.getElementById('theme-toggle').title = 'وضع النهار';
-  } else {
-    document.body.removeAttribute('data-theme');
-    document.getElementById('theme-toggle').textContent = '🌙';
-    document.getElementById('theme-toggle').title = 'وضع الليل';
-  }
-  // Sync color swatches
-  document.getElementById('swatch-cream').classList.toggle('active', !isDark);
-  document.getElementById('swatch-dark').classList.toggle('active', isDark);
-  localStorage.setItem('athkar-theme', isDark ? 'dark' : 'cream');
-}
+    <!-- ===== CART ===== -->
+    <div id="screen-cart" class="screen">
+        <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-home')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><h2 data-en="Cart" data-ar="السلة">Cart</h2><div style="width:24px"></div></div>
+        <div class="screen-scroll">
+            <div id="empty-cart" class="empty-state" style="display:none">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#D1D5DB" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <h3 data-en="Your cart is empty" data-ar="سلتك فارغة">Your cart is empty</h3>
+                <p data-en="Browse restaurants and add items" data-ar="تصفح المطاعم وأضف عناصر">Browse restaurants and add items</p>
+                <button class="cta-button" onclick="showScreen('screen-restaurants')" data-en="Browse Restaurants" data-ar="تصفح المطاعم">Browse Restaurants</button>
+            </div>
+            <div id="cart-content" style="display:none">
+                <div id="cart-items-container"></div>
+                <div id="cart-summary" class="cost-breakdown"></div>
+            </div>
+            <div style="height:120px"></div>
+        </div>
+        <div class="checkout-bar" id="cart-checkout-bar">
+            <div class="checkout-total"><span class="checkout-label" data-en="Total" data-ar="الإجمالي">Total</span><span id="cart-checkout-amount" class="checkout-amount">SAR 0</span></div>
+            <button class="checkout-btn" onclick="showScreen('screen-checkout')" data-en="Checkout" data-ar="الدفع">Checkout</button>
+        </div>
+    </div>
 
-// Header moon/sun toggle
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  isDark = !isDark;
-  applyTheme();
-});
+    <!-- ===== CHECKOUT ===== -->
+    <div id="screen-checkout" class="screen">
+        <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-cart')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><h2 data-en="Checkout" data-ar="الدفع">Checkout</h2><div style="width:24px"></div></div>
+        <div class="screen-scroll">
+            <div class="checkout-section">
+                <div class="checkout-section-header"><svg width="20" height="20" viewBox="0 0 24 24" fill="#FF6B35"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg><h3 data-en="Delivery Address" data-ar="عنوان التوصيل">Delivery Address</h3></div>
+                <div id="checkout-address-section">
+                    <!-- Dynamically rendered by renderCheckout() -->
+                </div>
+            </div>
+            <div class="checkout-section">
+                <div class="checkout-section-header"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><h3 data-en="Estimated Delivery" data-ar="التوصيل المتوقع">Estimated Delivery</h3></div>
+                <div class="checkout-time-card"><span class="checkout-time" data-en="25-35 min" data-ar="25-35 دقيقة">25-35 min</span><span class="checkout-time-note" data-en="One driver, all restaurants coordinated" data-ar="سائق واحد، جميع المطاعم منسقة">One driver, all restaurants coordinated</span></div>
+            </div>
+            <div class="checkout-section">
+                <div class="checkout-section-header"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><h3 data-en="Payment" data-ar="الدفع">Payment</h3></div>
+                <div class="payment-options">
+                    <!-- Dynamically rendered by renderCheckout() -->
+                </div>
+            </div>
+            <div style="height:120px"></div>
+        </div>
+        <div class="checkout-bar"><div class="checkout-total"><span class="checkout-label" data-en="Total" data-ar="الإجمالي">Total</span><span id="checkout-total-amount" class="checkout-amount">SAR 0</span></div><button class="checkout-btn place-order-btn" onclick="placeOrder()" data-en="Place Order" data-ar="أكّد الطلب">Place Order</button></div>
+    </div>
 
-// Swatch / pill theme selector
-function setPillTheme(dark) {
-  isDark = dark;
-  applyTheme();
-}
+    <!-- ===== PROFILE ===== -->
+    <div id="screen-profile" class="screen">
+        <div class="screen-header"><button class="back-btn" onclick="showScreen('screen-home')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button><h2 data-en="Profile" data-ar="حسابي">Profile</h2><div style="width:24px"></div></div>
+        <div class="screen-scroll">
+            <div class="profile-header">
+                <div class="profile-avatar-lg" id="profile-avatar">U</div>
+                <h3 id="profile-name">User</h3>
+                <p id="profile-email" class="profile-email">user@email.com</p>
+                <p id="profile-phone" class="profile-phone"></p>
+            </div>
+            <div class="profile-menu">
+                <div class="profile-menu-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-en="My Orders" data-ar="طلباتي">My Orders</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+                <div class="profile-menu-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span data-en="Saved Addresses" data-ar="العناوين المحفوظة">Saved Addresses</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+                <div class="profile-menu-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span data-en="Payment Methods" data-ar="طرق الدفع">Payment Methods</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <button class="logout-btn" onclick="logout()" data-en="Log Out" data-ar="تسجيل خروج">Log Out</button>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// BACK TO TOP
-// ─────────────────────────────────────────
-const backBtn = document.getElementById('back-top');
-window.addEventListener('scroll', () => {
-  backBtn.classList.toggle('visible', window.scrollY > 400);
-});
-backBtn.addEventListener('click', () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
+    <!-- ===== ORDER CONFIRMATION ===== -->
+    <div id="order-confirmation" class="confirmation-overlay">
+        <div class="confirmation-content">
+            <div class="confirmation-checkmark"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <h2 data-en="Order Confirmed!" data-ar="تم تأكيد الطلب!">Order Confirmed!</h2>
+            <p data-en="Your order is being prepared" data-ar="يتم تحضير طلبك">Your order is being prepared</p>
+            <div class="confirmation-details">
+                <div class="conf-detail"><span class="conf-label" data-en="Order #" data-ar="رقم الطلب">Order #</span><span id="conf-order-num" class="conf-value">LH-0000</span></div>
+                <div class="conf-detail"><span class="conf-label" data-en="Restaurants" data-ar="المطاعم">Restaurants</span><span id="conf-restaurants" class="conf-value">0</span></div>
+                <div class="conf-detail"><span class="conf-label" data-en="Items" data-ar="العناصر">Items</span><span id="conf-items" class="conf-value">0</span></div>
+                <div class="conf-detail"><span class="conf-label" data-en="Total" data-ar="الإجمالي">Total</span><span id="conf-total" class="conf-value">SAR 0</span></div>
+            </div>
+            <button class="conf-home-btn" onclick="hideOrderConfirmation()" data-en="Back to Home" data-ar="العودة للرئيسية">Back to Home</button>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// RESTORE PREFERENCES
-// ─────────────────────────────────────────
-function restorePrefs() {
-  const savedFont = parseInt(localStorage.getItem('athkar-font'));
-  if (!isNaN(savedFont) && savedFont >= 0 && savedFont < FONT_SIZES.length) {
-    fontIdx = savedFont;
-  }
-  const savedTheme = localStorage.getItem('athkar-theme');
-  if (savedTheme === 'dark') { isDark = true; }
-}
+    <!-- ===== INVITE MODAL ===== -->
+    <div id="invite-modal" class="modal-overlay" onclick="if(event.target===this)this.style.display='none'">
+        <div class="modal-content">
+            <h3 data-en="Invite to Group" data-ar="دعوة للمجموعة">Invite to Group</h3>
+            <div class="qr-placeholder"><svg width="120" height="120" viewBox="0 0 120 120" fill="none"><rect width="120" height="120" rx="12" fill="#F3F4F6"/><rect x="20" y="20" width="30" height="30" rx="4" fill="#1F2937"/><rect x="70" y="20" width="30" height="30" rx="4" fill="#1F2937"/><rect x="20" y="70" width="30" height="30" rx="4" fill="#1F2937"/><rect x="70" y="70" width="15" height="15" rx="2" fill="#1F2937"/><rect x="85" y="85" width="15" height="15" rx="2" fill="#1F2937"/><rect x="55" y="55" width="10" height="10" rx="2" fill="#1F2937"/></svg></div>
+            <p class="qr-text" data-en="Scan to join the group" data-ar="امسح للانضمام للمجموعة">Scan to join the group</p>
+            <div class="invite-link-row"><input type="text" value="lamhub.app/join/AH2847" readonly class="invite-link-input"><button class="copy-btn" data-en="Copy" data-ar="نسخ">Copy</button></div>
+            <button class="modal-close-btn" onclick="this.closest('.modal-overlay').style.display='none'" data-en="Close" data-ar="إغلاق">Close</button>
+        </div>
+    </div>
 
-// ─────────────────────────────────────────
-// INIT
-// ─────────────────────────────────────────
-restorePrefs();
-renderCards();
-applyFont();
-applyTheme();
-</script>
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav" id="bottom-nav" style="display:none">
+        <button class="nav-item active" onclick="showScreen('screen-home');setActiveNav(this)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-en="Home" data-ar="الرئيسية">Home</span></button>
+        <button class="nav-item" onclick="showScreen('screen-group');setActiveNav(this)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-en="Group" data-ar="المجموعة">Group</span></button>
+        <button class="nav-item" onclick="showScreen('screen-restaurants');setActiveNav(this)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span data-en="Explore" data-ar="استكشف">Explore</span></button>
+        <button class="nav-item" onclick="showScreen('screen-cart');setActiveNav(this)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span data-en="Cart" data-ar="السلة">Cart</span><span class="cart-badge" id="cart-badge" style="display:none">0</span></button>
+        <button class="nav-item" onclick="showScreen('screen-profile');setActiveNav(this)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-en="Profile" data-ar="حسابي">Profile</span></button>
+    </nav>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
