@@ -1,203 +1,374 @@
-# CLAUDE.md — Lamhub Food Delivery App
+# CLAUDE.md — Project Documentation
+## Athkar / Daily Wird Static Website
+
+---
 
 ## Project Overview
 
-**Lamhub** — "Where Groups Order Smarter" — a mobile-first group food delivery SPA for Riyadh, Saudi Arabia. Users order from multiple restaurants in the same hub area with one shared delivery fee.
+A mobile-first static Arabic website for prophetic supplications (أذكار), deployed via GitHub Pages.
 
-- **Live URL:** https://abdualhumud.github.io/Abdulrahman-/
-- **Repository:** https://github.com/abdualhumud/Abdulrahman-
-- **Branch:** `master` (deployed via GitHub Pages from root)
-- **Push command:** `git -c http.sslVerify=false push origin master` (SSL issues on network)
+- **Production URL:** https://athkarr.com
+- **Staging URL:** https://staging.athkarr.com
+- **Production Repo:** https://github.com/abdualhumud/Abdulrahman-
+- **Staging Repo:** https://github.com/abdualhumud/Athkar-staging
+- **Branch deployed (production):** `master`
+- **Branch deployed (staging):** `main`
+- **Pages source:** root of each repo's deployed branch
+
+---
+
+## Environments
+
+| | Production | Staging |
+|---|---|---|
+| **URL** | `https://athkarr.com` | `https://staging.athkarr.com` |
+| **Repo** | `abdualhumud/Abdulrahman-` | `abdualhumud/Athkar-staging` |
+| **Git remote** | `origin` | `staging-remote` |
+| **Deployed branch** | `master` | `main` |
+| **noindex** | ❌ No | ✅ Yes |
+| **CNAME file** | `athkarr.com` | `staging.athkarr.com` |
+
+### Request Tagging — MANDATORY
+
+Every future request must be tagged:
+- **`[STAGING]`** → apply only to `staging-remote/main` — never touches production
+- **`[PRODUCTION]`** → apply only to `origin/master` — the live site
+
+**Never mix environments. Never auto-promote staging to production.**
 
 ---
 
 ## Architecture
 
-Pure static SPA — no framework, no build tools, no backend.
+Single-file static HTML — no build tools, no backend, no dependencies except Google Fonts.
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `index.html` | ~370 | All screen markup, CDN links (Leaflet, Google Fonts) |
-| `app.js` | ~2150 | All logic: state, rendering, navigation, data |
-| `styles.css` | ~3970 | Complete design system, responsive, RTL support |
-
-### Key Design Constraints
-- **Phone frame:** 393×852px with `border-radius: 40px`
-- **Bilingual:** Arabic (RTL) + English (LTR) via `data-en`/`data-ar` attributes
-- **No dependencies** except Google Fonts (Inter + Tajawal) and Leaflet.js for maps
-- **Images:** Unsplash CDN (`images.unsplash.com/photo-xxx?w=400&h=300&fit=crop`)
-
----
-
-## Screen Navigation
-
-All screens are `<div class="screen">` elements toggled via `showScreen(screenId)`:
-
-| Screen ID | Purpose | Render Function |
-|-----------|---------|-----------------|
-| `screen-welcome` | Onboarding (3 slides) + language selector | — |
-| `screen-signup` | Registration form + Google sign-in | — |
-| `screen-login` | Email/password + Google sign-in | — |
-| `screen-otp` | 4-digit OTP verification | `setupOTPInputs()` |
-| `screen-home` | Hub cards, area tabs, nearby restaurants | `renderHome()` |
-| `screen-group` | Group order management, invite | `renderGroup()` |
-| `screen-restaurants` | Browse/filter restaurants by area | `renderRestaurants()` |
-| `screen-menu` | Restaurant menu with categories | `renderMenu()` |
-| `screen-cart` | Cart with grouped items, delivery fee | `renderCart()` |
-| `screen-checkout` | Address, payment, place order | `renderCheckout()` |
-| `screen-profile` | User info, menu links | `renderProfile()` |
-| `screen-orders` | Order history list | `renderOrders()` |
-| `screen-addresses` | Saved delivery addresses | `renderAddresses()` |
-| `screen-payments` | Payment methods | `renderPayments()` |
-| `screen-notifications` | Notification feed | `renderNotifications()` |
-| `screen-tracking` | Order tracking timeline + map | `renderTracking()` |
-
-Auth screens hide bottom nav. `showScreen()` auto-calls the render function.
-
----
-
-## Data Model
-
-### Global State Variables
 ```
-currentLang        'en' | 'ar'
-currentUser        { id, name, email, phone, password, avatar, joinDate, authProvider }
-cart               [{ itemId, restaurantId, restaurantName, area, nameEn, nameAr, price, quantity, image }]
-cartArea           'hittin' | 'olaya' | ... | null (enforces single-area cart)
-activeArea         Current area tab selection on home
-showAllStores      Boolean toggle for Explore screen
-selectedPayment    'card' | 'apple' | 'cash'
-deliveryAddress    { label, address, lat, lng }
-savedAddresses     Array of user-added addresses
-groupOrder         { id, host, hostAvatar, members[], area, createdAt }
-window.orderHistory  Array of past orders with status progression
-leafletMap         Leaflet map instance (cleaned up on modal close)
+index.html            — 50 duas (جوامع دعاء النبي ﷺ) — canonical root
+jawamie-douaa/
+  index.html          — Mirror of root index.html (same content, same canonical)
+daily-wird/
+  index.html          — Daily Wird: 4 Quranic surahs + 3 hadith adhkar
+sabah-masa/
+  index.html          — Morning & Evening Adhkar: 16 cards
+wird.html             — Redirect stub → /daily-wird/
+sabah-masa.html       — Redirect stub → /sabah-masa/
+404.html              — Custom 404 with JS URL router
+CNAME                 — Custom domain file
+.nojekyll             — Disables Jekyll on GitHub Pages
+CLAUDE.md             — this file
 ```
 
-### localStorage Keys
-| Key | Content |
-|-----|---------|
-| `lamhub_user` | User profile JSON |
-| `lamhub_cart` | Cart items array |
-| `lamhub_group` | Active group order |
-| `lamhub_addresses` | User-saved addresses |
-| `lamhub_delivery_address` | Current delivery address |
-| `lamhub_orders` | Order history array |
-
-### Restaurant Data (`RESTAURANTS` array)
-25 restaurants across 5 areas (5 per area):
-- **Hittin:** Section-B, Smokey Beards, Feels, L'aroma, Mama Noura
-- **Olaya:** Wood's, Swiss Butter, Leila, Sultan Delight, Shawarma House
-- **Malqa:** Nobu, The Butcher Shop, Brew92, Bafarat, Kudu
-- **Nakheel:** Nando's, PizzaExpress, Five Guys, Paul, Caribou
-- **KAFD:** Tatami, La Brasserie, Hashi, Din Tai Fung, %Arabica
-
-Each restaurant has: `id, name, area, cuisineEn, cuisineAr, rating, deliveryTime, priceRange, image, cover, menu[]`
-
-Each menu category has: `cat, catAr, items[]`
-Each item has: `id, nameEn, nameAr, descEn, descAr, price, image`
-
 ---
 
-## Key Business Logic
+## Design System
 
-### Area Restriction
-- Cart is locked to ONE area at a time (`cartArea`)
-- `showAreaConflictModal()` warns when adding items from a different area
-- Shows similar restaurants in current area as alternatives
-- "Switch" clears cart and changes area; "Stay" keeps current cart
-- Applied at both `addItemFromDetail()` and `openRestaurantSmart()` (Explore screen)
+### Colors — Two Themes Only (no others)
 
-### Delivery Fee & Savings
-- Standard fee: **15 SAR** (single fee regardless of restaurant count)
-- Savings shown only when 2+ restaurants in cart
-- Explainer text: "Ordering from X restaurants separately would cost SAR Y delivery"
+| Variable | Cream (default) | Dark / Night |
+|---|---|---|
+| `--bg` | `#FAF6F0` | `#1A1612` |
+| `--card` | `#FFFDF9` | `#242018` |
+| `--border` | `#E8DDD0` | `#3A3228` |
+| `--accent` | `#7A5C3E` | `#C8A87A` |
+| `--accent2` | `#A07850` | `#E0C090` |
+| `--text` | `#2C1F0F` | `#F5EDD8` |
+| `--muted` | `#7A6652` | `#B0906A` |
+| `--ref-bg` | `#F5EDE2` | `#2E2820` |
+| `--header-bg` | `#7A5C3E` | `#2E2820` |
+| `--header-fg` | `#FFFDF9` | `#F5EDD8` |
+| `--counter-bg` | `#7A5C3E` | `#C8A87A` |
+| `--counter-fg` | `#FFFFFF` | `#1A1612` |
 
-### Order Flow
-1. Browse → Add to cart → Cart review → Checkout → Place Order
-2. `placeOrder()` saves to `window.orderHistory` with metadata
-3. Status auto-progresses: `preparing` → `onway` (15s) → `delivered` (30s)
-4. After confirmation overlay, user goes to tracking screen (not home)
+Theme applied via `data-theme="dark"` on `<html>` (documentElement). Default (cream) uses `:root`.
 
----
+### Font Sizes
 
-## Features Implemented
-
-### Interactive Map (Leaflet.js)
-- OpenStreetMap tiles, centered on Riyadh (24.7136, 46.6753)
-- Draggable pin marker updates `deliveryAddress` coordinates
-- 5 colored polygon boundaries for hub areas with permanent labels
-- Tracking screen has a second map with user + driver markers
-- Map instance cleaned up on modal close to prevent memory leaks
-
-### Language System
-- Welcome screen: `English` / `العربية` selector buttons
-- In-app: `toggleLanguage()` via header button
-- All static text uses `data-en`/`data-ar` attributes
-- All dynamic text uses `currentLang === 'en' ? ... : ...` ternaries
-- Placeholders use `data-placeholder-en`/`data-placeholder-ar`
-- RTL: `[dir="rtl"]` CSS selectors throughout
-
-### Authentication
-- **Email/password:** `signup()` → OTP → `verifyOTP()` → home
-- **Google OAuth simulation:** `googleSignIn()` → account picker popup → `completeGoogleSignIn()`
-- Users saved to localStorage with `authProvider` field
-- OTP accepts any 4 digits (demo mode)
-
-### Desktop Navigation
-- `ArrowUp/Down`: scroll 100px
-- `PageUp/Down`: scroll 80% of viewport
-- `Home/End`: scroll to top/bottom (skipped in input fields)
-- `Escape`: closes modals (item detail → location map → order confirmation)
-
-### Payment System
-- JS-controlled selection via `selectPayment(method)` (no radio buttons)
-- Three options: Credit/Debit Card, Apple Pay, Cash on Delivery
-- "Add New Card" expandable form with formatting helpers
-- SVG icons for all payment methods
-
----
-
-## CSS Architecture
-
-### Design Tokens (CSS Variables)
-```css
---primary: #FF6B35    --primary-light: #FFF0E8    --primary-dark: #E55A2B
---green: #059669      --green-light: #D1FAE5
---purple: #7C3AED     --bg: #FAFAFA
+```js
+const FONT_SIZES = [
+  { label: 'صغير',  px: 18 },
+  { label: 'متوسط', px: 24 },  // default index = 1
+  { label: 'كبير',  px: 30 },
+  { label: 'أكبر',  px: 36 }
+];
+let fontIdx = 1; // متوسط is default
 ```
 
-### Key Patterns
-- `.screen` + `.active` for navigation
-- `.screen-scroll` for scrollable content areas (smooth scroll enabled)
-- Overlays: `.area-conflict-overlay`, `.location-map-overlay`, `.google-auth-overlay`, `.confirmation-overlay`
-- All overlays use `opacity` transition with `.show` class
-- Cards: `border-radius: 16px`, `box-shadow: 0 2px 8px rgba(0,0,0,0.06)`
+Font: **Amiri** (Google Fonts), Arabic serif.
 
-### RTL Support
-Every new component has `[dir="rtl"]` overrides:
-- `flex-direction: row-reverse` for horizontal layouts
-- `text-align: right` for text containers
-- `left`/`right` swaps for positioned elements
-- `border-left`/`border-right` swaps for notification cards
+### Persistence
+
+All pages share the same localStorage keys:
+- `athkar-theme` — `'cream'` or `'dark'`
+- `athkar-font` — integer index 0–3
 
 ---
 
-## Related Repository
+## Header Layout
 
-**Athkar** (separate project): https://github.com/abdualhumud/Athkar
-- Daily Wird & Athkar website (Arabic supplications)
-- Files: `index.html`, `athkar.html`, `wird.html`, `CLAUDE.md`
-- **Must not be mixed** with this food delivery repo
+### index.html / jawamie-douaa/index.html
+
+```
+Row 1: [title-area (title + اللون swatches)] | [font-controls] | [🌙 toggle]
+Row 2: [📖 الورد اليومي button — left-aligned (flex-end in RTL)]
+```
+
+### daily-wird/index.html / sabah-masa/index.html
+
+```
+Row 1: [← رجوع] | [title-area (title + اللون swatches)] | [font-controls] | [🌙 toggle]
+```
+
+### Color Swatch Widget
+
+```html
+<div class="color-selector">
+  <span class="color-label">اللون</span>
+  <button class="color-swatch swatch-cream active" id="swatch-cream"
+          onclick="setPillTheme(false)"></button>
+  <button class="color-swatch swatch-dark" id="swatch-dark"
+          onclick="setPillTheme(true)"></button>
+</div>
+```
+
+- Cream swatch: `#FAF6F0` circle
+- Dark swatch: `#1A1612` circle
+- Active swatch: white ring `box-shadow: 0 0 0 2.5px #fff` + `scale(1.18)`
+- Both swatches stay in sync with the 🌙/☀️ toggle via `applyTheme()`
 
 ---
 
-## Common Pitfalls
+## Basmala Rules — CRITICAL
 
-1. **SSL on push:** Always use `git -c http.sslVerify=false push origin master`
-2. **Leaflet cleanup:** Must call `leafletMap.remove()` before removing modal DOM, or map instance leaks
-3. **Cart area sync:** When cart empties, `cartArea` must reset to `null`
-4. **Language toggle:** Dynamic content must re-render after toggle — check `toggleLanguage()` calls all render functions
-5. **index.html must be the food delivery page**, not the Athkar page (was overwritten once in commit `d9991cd`)
-6. **Price updates:** Use `replace_all: false` with exact `price:` matches — many items share similar structures
-7. **No radio buttons for payment:** Previous implementation caused Apple Pay double-selection bug. Use div-based selection with JS `.active` class only
+| Context | Basmala shown? |
+|---|---|
+| Quranic surah cards (daily-wird, sabah-masa) | **YES** — as a `.basmala-inline` span, verse ﴿١﴾ in Al-Fatiha; as a separate `.basmala` div in other surahs |
+| Hadith / dhikr cards | **NO** — never |
+| Main page dua cards (index.html / jawamie-douaa) | **NO** — all 50 cards are hadith |
+
+Do NOT add `بسم الله` to any hadith card. This was a recurring mistake to avoid.
+
+---
+
+## Al-Fatiha Verse Numbering
+
+Al-Fatiha is the **only** surah where the Basmala counts as verse ﴿١﴾.
+
+```html
+<div class="verses">
+  <span class="verse-line basmala-v">
+    <span class="basmala-inline">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
+    <span class="verse-num">﴿١﴾</span>
+  </span>
+  <span class="verse-line">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ <span class="verse-num">﴿٢﴾</span></span>
+  <span class="verse-line">الرَّحْمَنِ الرَّحِيمِ <span class="verse-num">﴿٣﴾</span></span>
+  <span class="verse-line">مَالِكِ يَوْمِ الدِّينِ <span class="verse-num">﴿٤﴾</span></span>
+  <span class="verse-line">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <span class="verse-num">﴿٥﴾</span></span>
+  <span class="verse-line">اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ <span class="verse-num">﴿٦﴾</span></span>
+  <span class="verse-line">صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ <span class="verse-num">﴿٧﴾</span></span>
+</div>
+```
+
+For Al-Ikhlas, Al-Falaq, An-Nas: Basmala stays as a separate `<div class="basmala">` (no verse number), verses start at ﴿١﴾.
+
+---
+
+## Quranic Text (Verified)
+
+Use standard Arabic with full tashkeel. Verified text:
+
+### Al-Fatiha (الفاتحة)
+بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ﴿١﴾ — الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾ — الرَّحْمَنِ الرَّحِيمِ ﴿٣﴾ — مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾ — إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ — اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾ — صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾
+
+### Al-Ikhlas (الإخلاص) — Basmala + 4 verses
+قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ — اللَّهُ الصَّمَدُ ﴿٢﴾ — لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ — وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾
+
+### Al-Falaq (الفلق) — Basmala + 5 verses
+قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ﴿١﴾ — مِن شَرِّ مَا خَلَقَ ﴿٢﴾ — وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﴿٣﴾ — وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ﴿٤﴾ — وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ﴿٥﴾
+
+### An-Nas (الناس) — Basmala + 6 verses
+قُلْ أَعُوذُ بِرَبِّ النَّاسِ ﴿١﴾ — مَلِكِ النَّاسِ ﴿٢﴾ — إِلَهِ النَّاسِ ﴿٣﴾ — مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ﴿٤﴾ — الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ﴿٥﴾ — مِنَ الْجِنَّةِ وَالنَّاسِ ﴿٦﴾
+
+---
+
+## Daily Wird Page (daily-wird/index.html) — Card Structure
+
+### Quran cards (w1–w4)
+
+```html
+<article class="wird-card" id="w1">
+  <div class="card-header"><div class="surah-badge">سورة الفاتحة</div></div>
+  <!-- Al-Fatiha: Basmala is verse 1 (inline in verses div) -->
+  <!-- Other surahs: <div class="basmala">...</div> before <div class="verses"> -->
+  <div class="verses">
+    <span class="verse-line">...<span class="verse-num">﴿١﴾</span></span>
+  </div>
+  <div class="wird-ref">...</div>
+  <div class="counter-area">...</div>
+</article>
+```
+
+### Hadith cards (w5–w7) — NO basmala div
+
+```html
+<article class="wird-card" id="w5">
+  <div class="card-header"><div class="hadith-badge">...</div></div>
+  <div class="wird-text">«...»</div>
+  <div class="wird-ref">...</div>
+  <div class="counter-area">...</div>
+</article>
+```
+
+---
+
+## Counter Logic
+
+### Jawamie Douaa (index.html / jawamie-douaa) — Unlimited
+No maximum limit. Counter increments freely on every tap. Reset returns to zero.
+```js
+function tapCounter(id) {
+  counters[id]++;
+  updateCountDisplay(id);
+}
+```
+Progress bar fills on first tap and stays full. No `/ N` max label shown.
+
+### Daily Wird (daily-wird/index.html) — Fixed max per card
+```js
+const ADHKAR_MAX = { w1: 1, w2: 3, w3: 3, w4: 3, w5: 3, w6: 3, w7: 33 };
+```
+
+### Sabah & Masa (sabah-masa/index.html) — Fixed max per card
+```js
+const ADHKAR_MAX = {
+  sm1:1, sm2:1, sm3:1, sm4:10,
+  sm5:1, sm6:3, sm7:3, sm8:3,
+  sm9:7, sm10:100, sm11:1, sm12:1,
+  sm13:3, sm14:3, sm15:3, sm16:3
+};
+```
+
+---
+
+## Deployment
+
+### Production
+```bash
+git -c http.sslVerify=false push origin claude/great-rosalind:master
+```
+
+### Staging
+```bash
+# Rebase staging overlay on top of current working branch
+git checkout staging
+git rebase claude/great-rosalind
+# Push to staging
+git -c http.sslVerify=false push staging-remote staging:main --force-with-lease
+git checkout claude/great-rosalind
+```
+
+### Check build status
+```bash
+# Production
+curl -k -s -H "Authorization: token TOKEN" \
+  "https://api.github.com/repos/abdualhumud/Abdulrahman-/pages" | grep "status"
+
+# Staging
+curl -k -s -H "Authorization: token TOKEN" \
+  "https://api.github.com/repos/abdualhumud/Athkar-staging/pages" | grep "status"
+```
+
+- SSL bypass (`-c http.sslVerify=false`) is required on this Windows machine
+- Pages build takes ~20–40 seconds after push
+- Status changes from `"building"` to `"built"` when live
+
+---
+
+## Promote Staging → Production
+
+```bash
+# Changes are already committed on claude/great-rosalind
+# Just push to production:
+git -c http.sslVerify=false push origin claude/great-rosalind:master
+# Never merge the 'staging' branch into master — it carries noindex/staging CNAME
+```
+
+---
+
+## Design Rules (User Preferences)
+
+1. **Do NOT redesign** — only refine. Preserve spacing, structure, visual identity.
+2. **Only two themes** — Cream and Dark/Night. No green, blue, rose, or other colors.
+3. **Default font** — Medium (متوسط, 24px). Not large.
+4. **RTL layout** — `lang="ar" dir="rtl"`. In RTL, `flex-end` = visual LEFT.
+5. **Basmala** — Quran only. Never add to hadith.
+6. **No extra features** — Do not add anything not explicitly requested.
+7. **Header design** — warm brown/cream (`#7A5C3E` header). Do not flatten to black/white.
+8. **Wird button** — below font controls, aligned to the visual LEFT of the header.
+9. **Environment tags** — Every request must be tagged `[STAGING]` or `[PRODUCTION]`.
+
+---
+
+## Common Mistakes to Avoid
+
+| Mistake | Correct approach |
+|---|---|
+| Adding Basmala to hadith cards | Basmala is Quran-only |
+| Setting default font to large (32px) | Default is `fontIdx = 1` (متوسط, 24px) |
+| Replacing warm brown header with flat black | Restore `--header-bg: #7A5C3E` |
+| Adding a third theme color | Only cream + dark |
+| Merging or shortening Quranic verses | Each verse on its own line, exact wording |
+| Numbering Al-Fatiha without Basmala as ﴿١﴾ | Basmala = verse 1 in Fatiha only |
+| Using `timeout /t` on Windows bash | Use `sleep N` instead |
+| Using `findstr` in bash | Use `grep` instead |
+| Merging `staging` branch into `master` | Never — staging branch carries noindex |
+| Pushing staging changes to `origin/master` | Always use `staging-remote` for `[STAGING]` |
+| Pushing production changes to `staging-remote` | Always use `origin` for `[PRODUCTION]` |
+
+---
+
+## Git Workflow
+
+### Branch Map
+
+```
+claude/great-rosalind  ← Working/dev branch (production files, no noindex)
+staging                ← Working branch + staging overlay on top
+                         (noindex + CNAME=staging.athkarr.com)
+                         !! NEVER merge to master !!
+master                 ← Production branch (clean, no noindex)
+```
+
+### Remotes
+
+```
+origin          → https://github.com/abdualhumud/Abdulrahman-   (PRODUCTION)
+staging-remote  → https://github.com/abdualhumud/Athkar-staging (STAGING)
+athkar          → https://github.com/abdualhumud/Athkar          (legacy, unused)
+```
+
+### [PRODUCTION] Workflow
+
+```bash
+git checkout claude/great-rosalind
+# ... edit files ...
+git add <files>
+git commit -m "Description"
+git -c http.sslVerify=false push origin claude/great-rosalind:master
+```
+
+### [STAGING] Workflow
+
+```bash
+git checkout claude/great-rosalind
+# ... edit files ...
+git add <files>
+git commit -m "Description"
+
+# Rebase staging overlay on top of new commit
+git checkout staging
+git rebase claude/great-rosalind
+git -c http.sslVerify=false push staging-remote staging:main --force-with-lease
+git checkout claude/great-rosalind
+```
+
+If `index.lock` error appears: find and remove stale lock with `find /c/Users/... -name "*.lock"`.
