@@ -1,0 +1,19 @@
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/CLAUDE.md
+  X-Robots-Tag: noindex
+
+/deploy.sh
+  X-Robots-Tag: noindex
+
+/cf_deploy.ps1
+  X-Robots-Tag: noindex
+
+/cf_deploy_v2.ps1
+  X-Robots-Tag: noindex
+
+/cf_upload_files.ps1
+  X-Robots-Tag: noindex

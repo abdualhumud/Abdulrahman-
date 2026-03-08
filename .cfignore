@@ -1,0 +1,23 @@
+# Cloudflare Pages deployment exclusions
+# Development and CI files - not part of the website
+
+# Deployment scripts
+deploy.sh
+cf_deploy.ps1
+cf_deploy_v2.ps1
+cf_upload_files.ps1
+clean_production.pl
+clean_production.py
+
+# Development directories
+.claude/
+.wrangler/
+.github/
+cloudflare-worker/
+
+# Documentation
+CLAUDE.md
+
+# Git
+.git/
+.gitignore

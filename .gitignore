@@ -31,3 +31,22 @@ build/
 # Logs
 *.log
 npm-debug.log*
+
+# Deployment scripts (not part of website)
+deploy.sh
+cf_deploy.ps1
+cf_deploy_v2.ps1
+cf_upload_files.ps1
+clean_production.pl
+clean_production.py
+
+# Development directories
+.claude/
+.wrangler/
+cloudflare-worker/
+
+# Node.js portable install
+node-portable/
+
+# Documentation (not part of website)
+CLAUDE.md
