@@ -1,0 +1,34 @@
+{
+  "name": "أذكار من هدي النبي ﷺ",
+  "short_name": "أذكار",
+  "description": "من جوامع دعاء النبي ﷺ وأذكار الصباح والمساء اليومية",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF6F0",
+  "theme_color": "#7A5C3E",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["lifestyle", "religion"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "الورد اليومي",
+      "url": "/daily-wird/",
+      "description": "الورد اليومي — أربع سور قرآنية وأذكار"
+    },
+    {
+      "name": "أذكار الصباح والمساء",
+      "url": "/sabah-masa/",
+      "description": "أذكار الصباح والمساء المأثورة"
+    }
+  ]
+}
